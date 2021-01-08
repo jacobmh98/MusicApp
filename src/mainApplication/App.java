@@ -1,4 +1,4 @@
-package common.src.main;
+package mainApplication;
 
 import org.jspace.FormalField;
 import org.jspace.RandomSpace;
