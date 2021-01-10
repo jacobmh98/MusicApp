@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="bgt_main" prefHeight="673.0" prefWidth="1428.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainApplication.controller.MainController">
+   <children>
+      <Pane fx:id="panePiano" layoutX="31.0" layoutY="498.0" prefHeight="130.0" prefWidth="1040.0" />
+      <VBox layoutX="1095.0" layoutY="498.0" prefHeight="190.0" prefWidth="199.0">
+         <children>
+            <RadioButton fx:id="radioBtnMajor" mnemonicParsing="false" onAction="#radioBtnSelect" selected="true" text="Play Major Chords">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <toggleGroup>
+                  <ToggleGroup fx:id="radioBtnGroup" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="radioBtnMinor" mnemonicParsing="false" onAction="#radioBtnSelect" text="Play Minor Chords" toggleGroup="$radioBtnGroup">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </RadioButton>
+            <RadioButton fx:id="radioBtnNotes" mnemonicParsing="false" onAction="#radioBtnSelect" text="Play Individual Notes" toggleGroup="$radioBtnGroup" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

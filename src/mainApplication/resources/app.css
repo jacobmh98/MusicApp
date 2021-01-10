@@ -2,3 +2,12 @@
 -fx-background-image: url('./background_img.jpg');
 -fx-background-size: 100% 100%;
 }
+
+#bgt_main {
+	-fx-background-color: white;
+}
+
+#panePiano  {
+	-fx-background-color: #e0dede;
+	-fx-border-color: black;
+}
