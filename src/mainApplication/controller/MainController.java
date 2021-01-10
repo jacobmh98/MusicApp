@@ -22,8 +22,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import mainApplication.MusicApp;
 
 public class MainController implements Initializable {
+	private MusicApp musicApp = MusicApp.getInstance();
+	
 	private static final int KEY_HEIGHT = 90;
 	private static final int KEY_WIDTH_BLACK = 15;
 	private static final int KEY_WIDTH_WHITE = 20;
@@ -93,31 +96,6 @@ public class MainController implements Initializable {
 		
 	}
 	
-	private void playKey(int keyID) {
-		System.out.println("playing..");
-		String location;
-		try {
-			if(this.playingType == -1 && keyID < 81) {
-				location = "major_cords";
-			} else if(this.playingType == 0 && keyID < 81) {
-				location = "minor_cords";
-			} else {
-				location = "keys";
-			}
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResource("../resources/" + location + "/"+ keyID + ".wav"));
-			Clip clip = AudioSystem.getClip();
-			clip.open(audioInputStream);
-			clip.start(); //This plays the audio} catch(Exception e) {}
-		
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	private class Key extends StackPane {
 		private double x;
 		private int y;
@@ -152,7 +130,7 @@ public class MainController implements Initializable {
 				@Override
 				public void handle(MouseEvent arg0) {
 					System.out.println("key: " + id);
-					playKey(Math.abs(id));
+					musicApp.getAudioPlayer().playKey(Math.abs(id), playingType);
 				}
 			});
 			
