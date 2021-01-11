@@ -7,5 +7,13 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX15"/>
+	<classpathentry kind="lib" path="C:/Users/Max/Downloads/openjfx-11.0.2_windows-x64_bin-sdk/javafx.base.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Max/Downloads/openjfx-11.0.2_windows-x64_bin-sdk/javafx.controls.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Max/Downloads/openjfx-11.0.2_windows-x64_bin-sdk/javafx.fxml.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Max/Downloads/openjfx-11.0.2_windows-x64_bin-sdk/javafx.graphics.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Max/Downloads/openjfx-11.0.2_windows-x64_bin-sdk/javafx.media.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Max/Downloads/openjfx-11.0.2_windows-x64_bin-sdk/javafx.swing.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Max/Downloads/openjfx-11.0.2_windows-x64_bin-sdk/javafx.web.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Max/Downloads/openjfx-11.0.2_windows-x64_bin-sdk/javafx-swt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
