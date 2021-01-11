@@ -11,3 +11,14 @@
 	-fx-background-color: #e0dede;
 	-fx-border-color: black;
 }
+
+.timeBlock {
+	-fx-border-style: hidden solid hidden hidden;
+    -fx-border-width: 1;
+    -fx-border-color: gray;
+}
+
+.soundBlock {
+	-fx-background-radius: 3;
+	-fx-border-radius: 3;
+}

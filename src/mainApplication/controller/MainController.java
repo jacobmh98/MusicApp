@@ -1,15 +1,8 @@
 package mainApplication.controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,12 +10,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.RadioButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import mainApplication.MusicApp;
+import mainApplication.Track;
 
 public class MainController implements Initializable {
 	private MusicApp musicApp = MusicApp.getInstance();
@@ -34,6 +29,8 @@ public class MainController implements Initializable {
 	
 	private ArrayList<Rectangle> borderKeys = new ArrayList<Rectangle>();;
 	private ArrayList<Key> keys = new ArrayList<Key>();
+	
+	private Track track;
 	
 	private int playingType = -1; // Default playing Major chord. 0 => Minor, 1 => Individual Notes
 	
@@ -49,8 +46,14 @@ public class MainController implements Initializable {
 	@FXML
 	private RadioButton radioBtnNotes;
 	
+	@FXML
+	private HBox hBoxTrack;
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		track = new Track(hBoxTrack);
+		track.reset();
+		
 		int whiteCount = 0;
 		int blackCount = 1;
 		
