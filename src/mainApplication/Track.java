@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class Track {
 	private HBox paneTrack;
 	private ArrayList<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 	private MusicApp musicApp = MusicApp.getInstance();
+	private int timeBlockCount = 0;
 	
 	public Track(HBox paneTrack) {
 		this.paneTrack = paneTrack;
@@ -25,16 +26,26 @@ public class Track {
 	
 	public void reset() {
 		for(int i = 0; i < 5; i++) {
-			generateTimeBlock();
-		}
-		for(TimeBlock t : timeBlocks) {
-			this.paneTrack.getChildren().add(t.getTimeBlockVisual());
+			addTimeBlock();
 		}
 	}
 	
-	private void generateTimeBlock() {
-		TimeBlock timeBlock = new TimeBlock(timeBlocks.size());
+	// Add TimeBlock
+	public void addTimeBlock() {
+		TimeBlock timeBlock = new TimeBlock(timeBlockCount);
+		timeBlockCount++;
 		timeBlocks.add(timeBlock);
+		this.paneTrack.getChildren().add(timeBlock.getTimeBlockVisual());
+	}
+	
+	// Delete TimeBlock
+	public void deleteTimeBlock() {
+		if(timeBlockCount > 1) {
+			TimeBlock timeBlock = timeBlocks.get(timeBlockCount-1);
+			timeBlockCount--;
+			timeBlocks.remove(timeBlock);
+			this.paneTrack.getChildren().remove(timeBlock.getTimeBlockVisual());
+		}
 	}
 	
 	// Getter methods for single and all TimeBlocks
@@ -58,28 +69,31 @@ public class Track {
 			this.timeStamp = new Label(this.blockID*500 + " ms;");
 			
 			this.timeBlock.setPrefWidth(75);
+			this.timeBlock.setMinWidth(75);
+			this.timeBlock.setMaxWidth(75);
 			this.timeBlock.getStyleClass().add("timeBlock");
 			
 			this.timeBlock.getChildren().add(timeStamp);
 		}
 		
+		// Add SoundBlock
 		public void addSoundBlock(int personID, int playingType, String key) {
 			SoundBlock soundBlock = new SoundBlock(personID, playingType, key);
 			
 			this.timeBlock.getChildren().add(soundBlock);
 		}
 		
-		public VBox getTimeBlockVisual() {
-			return this.timeBlock;
-		}
-		
 		// Getter methods for fields
 		public int getBlockID() {
 			return this.blockID;
 		}
+		
+		public VBox getTimeBlockVisual() {
+			return this.timeBlock;
+		}
 	}
 	
-	private class SoundBlock extends Pane {
+	private class SoundBlock extends StackPane {
 		private int playingType;
 		private String key;
 		private int personID;
@@ -92,11 +106,14 @@ public class Track {
 			
 			Label labelKey = new Label(this.key);
 			if(this.playingType != 1) {
-				labelKey.setText(this.key + "_" + musicApp.translatePlayingType(playingType));
+				labelKey.setText(this.key);
 			}
 			
 			this.getChildren().add(labelKey);
 			this.prefHeight(20);
+			this.minHeight(20);
+			this.maxHeight(20);
+			
 			this.setStyle("-fx-background-color: " + colors[this.personID]);
 			this.getStyleClass().add("soundBlock");
 			//this.setStyle("-fx-background-color: " + colors[personID] + ";");

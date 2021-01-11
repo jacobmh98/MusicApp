@@ -46,7 +46,7 @@
          </font>
       </Text>
       <Button layoutX="31.0" layoutY="380.0" mnemonicParsing="false" text="Play Song" />
-      <ScrollPane layoutX="31.0" layoutY="100.0" prefHeight="271.0" prefWidth="1040.0" vbarPolicy="NEVER">
+      <ScrollPane layoutX="31.0" layoutY="100.0" prefHeight="271.0" prefWidth="1040.0">
          <content>
             <HBox fx:id="hBoxTrack" prefHeight="270.0" prefWidth="1040.0" />
          </content></ScrollPane>
@@ -78,5 +78,7 @@
             </Label>
          </children>
       </VBox>
+      <Button layoutX="110.0" layoutY="380.0" mnemonicParsing="false" onAction="#btnInsertColumn" text="Insert Column" />
+      <Button layoutX="209.0" layoutY="380.0" mnemonicParsing="false" onAction="#btnDeleteColumn" text="Delete Column" />
    </children>
 </AnchorPane>

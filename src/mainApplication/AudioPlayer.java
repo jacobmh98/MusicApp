@@ -9,6 +9,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class AudioPlayer {
+	Track track;
 
 	public AudioPlayer() {}
 	
@@ -35,5 +36,9 @@ public class AudioPlayer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void playSong() {
+		
 	}
 }

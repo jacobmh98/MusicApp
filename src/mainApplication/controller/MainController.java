@@ -26,6 +26,7 @@ import mainApplication.Track.TimeBlock;
 
 public class MainController implements Initializable {
 	private MusicApp musicApp = MusicApp.getInstance();
+	Track track;
 	
 	private static final int KEY_HEIGHT = 90;
 	private static final int KEY_WIDTH_BLACK = 15;
@@ -34,8 +35,6 @@ public class MainController implements Initializable {
 	
 	private ArrayList<Rectangle> borderKeys = new ArrayList<Rectangle>();;
 	private ArrayList<Key> keys = new ArrayList<Key>();
-	
-	private Track track;
 	
 	private int playingType = -1; // Default playing Major chord. 0 => Minor, 1 => Individual Notes
 	
@@ -112,6 +111,17 @@ public class MainController implements Initializable {
 			});
 	}
 	
+	// Method that runs when Insert Column is clicked
+	public void btnInsertColumn() {
+		track.addTimeBlock();
+		updatePositionChoice();
+	}
+	
+	public void btnDeleteColumn() {
+		track.deleteTimeBlock();
+		updatePositionChoice();
+	}
+	
 	// Method that runs when Insert button is clicked
 	public void btnInsertSound() {
 		if(pressedKey == null) {
@@ -124,6 +134,9 @@ public class MainController implements Initializable {
 	}
 	
 	public void updatePositionChoice() {
+		choiceBoxPosition.getItems().clear();
+		choiceBoxPosition.setValue("0 ms");
+		choicePosition = 0;
 		for(TimeBlock t : track.getTimeBlocks()) {
 			choiceBoxPosition.getItems().add(t.getBlockID()*500 + " ms");
 		}

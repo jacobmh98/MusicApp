@@ -36,7 +36,7 @@ public class LoginController implements Initializable {
 			primaryStage.setTitle("Create Music");
 			FXMLLoader loader = new FXMLLoader();
 			Parent root;
-			root = loader.load(getClass().getResource("../view/MainView2.fxml").openStream());
+			root = loader.load(getClass().getResource("../view/MainView3.fxml").openStream());
 			Scene scene = new Scene(root, 1400, 800);
 			scene.getStylesheets().addAll(this.getClass().getResource("../resources/app.css").toExternalForm());
 			primaryStage.setScene(scene);

@@ -17,9 +17,14 @@ public class MusicApp {
 		return instance;
 	}
 	
-	// Gettet method for audio player
+	// Getter method for audio player
 	public AudioPlayer getAudioPlayer() {
 		return this.audioPlayer;
+	}
+	
+	// Getter method for track
+	public Track getTrack() {
+		return this.track;
 	}
 	
 	// Login coordination
@@ -33,12 +38,12 @@ public class MusicApp {
 	
 	public String translateIdToKey(int id, int playingType) {
 		String[] keys = {"A","A#","B","C","C#","D","D#","E","F","F#","G","G#"};
-		String key = keys[id % 12] + (int) (Math.floor(id / 12) + 1);
+		String key;
+		if(id < 81) {
+			key = keys[id % 12] + (int) (Math.floor(id / 12) + 1) + (playingType == -1 ? "_major" : playingType == 0 ? "_minor" : "");
+		} else {
+			key = keys[id % 12] + (int) (Math.floor(id / 12) + 1);
+		}
 		return key;
-	}
-	
-	public String translatePlayingType(int playingType) {
-		String[] types = {"major", "minor", ""};
-		return types[playingType+1];//(types[playingType+1];
 	}
 }
