@@ -118,7 +118,8 @@ public class MainController implements Initializable {
 			lblErrorMsg.setText("Please enter key on the piano");
 		} else {
 			lblErrorMsg.setText("");
-			track.getTimeBlock(choicePosition).addSoundBlock(0, musicApp.translatePlayingType(playingType), pressedKey);
+			//track.getTimeBlock(choicePosition).addSoundBlock(0, musicApp.translatePlayingType(playingType), pressedKey);
+			track.getTimeBlock(choicePosition).addSoundBlock(0, playingType, pressedKey);
 		}
 	}
 	

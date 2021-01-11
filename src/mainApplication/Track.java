@@ -10,16 +10,17 @@ import javafx.scene.layout.VBox;
 public class Track {
 	private HBox paneTrack;
 	private ArrayList<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
+	private MusicApp musicApp = MusicApp.getInstance();
 	
 	public Track(HBox paneTrack) {
 		this.paneTrack = paneTrack;
 		this.reset();
 		
 		// adding test sound blocks just to test it out
-		timeBlocks.get(0).addSoundBlock(0, "major", "C1");
+		/*timeBlocks.get(0).addSoundBlock(0, "major", "C1");
 		timeBlocks.get(0).addSoundBlock(1, "keys", "A2");
 		timeBlocks.get(1).addSoundBlock(1, "keys", "A3#");
-		timeBlocks.get(2).addSoundBlock(2, "minor", "G#");
+		timeBlocks.get(2).addSoundBlock(2, "minor", "G#");*/
 	}
 	
 	public void reset() {
@@ -62,8 +63,8 @@ public class Track {
 			this.timeBlock.getChildren().add(timeStamp);
 		}
 		
-		public void addSoundBlock(int personID, String type, String key) {
-			SoundBlock soundBlock = new SoundBlock(personID, type, key);
+		public void addSoundBlock(int personID, int playingType, String key) {
+			SoundBlock soundBlock = new SoundBlock(personID, playingType, key);
 			
 			this.timeBlock.getChildren().add(soundBlock);
 		}
@@ -79,19 +80,19 @@ public class Track {
 	}
 	
 	private class SoundBlock extends Pane {
-		private String type;
+		private int playingType;
 		private String key;
 		private int personID;
 		String[] colors = {"#34a8eb", "#eb5934", "#3be835"};
 		
-		public SoundBlock(int personID, String type, String key) {
+		public SoundBlock(int personID, int playingType, String key) {
 			this.personID = personID;
-			this.type = type;
+			this.playingType = playingType;
 			this.key = key;
 			
 			Label labelKey = new Label(this.key);
-			if(this.type.length() != 4) {
-				labelKey.setText(this.key + "_" + this.type);
+			if(this.playingType != 1) {
+				labelKey.setText(this.key + "_" + musicApp.translatePlayingType(playingType));
 			}
 			
 			this.getChildren().add(labelKey);
