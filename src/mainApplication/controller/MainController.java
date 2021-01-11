@@ -8,6 +8,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -48,6 +50,12 @@ public class MainController implements Initializable {
 	
 	@FXML
 	private HBox hBoxTrack;
+	
+	@FXML
+	private ChoiceBox choiceBoxPosition;
+	
+	@FXML
+	private Label lblPressedKey;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -132,6 +140,8 @@ public class MainController implements Initializable {
 				@Override
 				public void handle(MouseEvent arg0) {
 					System.out.println("key: " + id);
+					lblPressedKey.setText("Insert key/chord: " + musicApp.translateIdToKey(Math.abs(id), playingType));
+					System.out.println(musicApp.translateIdToKey(Math.abs(id), playingType));
 					musicApp.getAudioPlayer().playKey(Math.abs(id), playingType);
 				}
 			});

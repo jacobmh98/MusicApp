@@ -29,7 +29,6 @@ public class Track {
 		for(TimeBlock t : timeBlocks) {
 			this.paneTrack.getChildren().add(t.getTimeBlockVisual());
 		}
-		
 	}
 	
 	private void generateTimeBlock() {
