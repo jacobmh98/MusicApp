@@ -36,4 +36,9 @@ public class MusicApp {
 		String key = keys[id % 12] + (int) (Math.floor(id / 12) + 1) + (playingType==-1 ? "_major" : playingType==0 ? "_minor" : "");
 		return key;
 	}
+	
+	public String translatePlayingType(int playingType) {
+		String[] types = {"major", "minor", "keys"};
+		return types[playingType+1];
+	}
 }

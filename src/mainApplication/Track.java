@@ -8,8 +8,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class Track {
-	HBox paneTrack;
-	ArrayList<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
+	private HBox paneTrack;
+	private ArrayList<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 	
 	public Track(HBox paneTrack) {
 		this.paneTrack = paneTrack;
@@ -36,16 +36,25 @@ public class Track {
 		timeBlocks.add(timeBlock);
 	}
 	
-	private class TimeBlock {
-		VBox timeBlock;
-		int id;
-		Label timeStamp;
-		ArrayList<SoundBlock> soundBlocks = new ArrayList<SoundBlock>();
+	// Getter methods for single and all TimeBlocks
+	public TimeBlock getTimeBlock(int index) {
+		return timeBlocks.get(index);
+	}
+	
+	public ArrayList<TimeBlock> getTimeBlocks() {
+		return timeBlocks;
+	}
+	
+	public class TimeBlock {
+		private VBox timeBlock;
+		private int blockID;
+		private Label timeStamp;
+		private ArrayList<SoundBlock> soundBlocks = new ArrayList<SoundBlock>();
 		
-		public TimeBlock(int id) {
+		public TimeBlock(int blockID) {
 			this.timeBlock = new VBox();
-			this.id = id;
-			this.timeStamp = new Label(this.id*500 + " ms;");
+			this.blockID = blockID;
+			this.timeStamp = new Label(this.blockID*500 + " ms;");
 			
 			this.timeBlock.setPrefWidth(75);
 			this.timeBlock.getStyleClass().add("timeBlock");
@@ -61,6 +70,11 @@ public class Track {
 		
 		public VBox getTimeBlockVisual() {
 			return this.timeBlock;
+		}
+		
+		// Getter methods for fields
+		public int getBlockID() {
+			return this.blockID;
 		}
 	}
 	

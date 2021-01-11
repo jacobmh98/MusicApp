@@ -50,7 +50,7 @@
          <content>
             <HBox fx:id="hBoxTrack" prefHeight="270.0" prefWidth="1040.0" />
          </content></ScrollPane>
-      <VBox layoutX="27.0" layoutY="561.0" prefHeight="114.0" prefWidth="255.0">
+      <VBox fx:id="vBoxInsert" layoutX="27.0" layoutY="561.0" prefHeight="149.0" prefWidth="255.0">
          <children>
             <Label fx:id="lblPressedKey" text="Insert key/chord: press a key on the piano">
                <opaqueInsets>
@@ -60,7 +60,7 @@
                   <Insets />
                </VBox.margin>
             </Label>
-            <Label text="Choose position: ">
+            <Label text="Choose at position: ">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
@@ -70,7 +70,12 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </ChoiceBox>
-            <Button mnemonicParsing="false" text="Insert Sound" />
+            <Button mnemonicParsing="false" onAction="#btnInsertSound" text="Insert Sound" />
+            <Label fx:id="lblErrorMsg">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
          </children>
       </VBox>
    </children>

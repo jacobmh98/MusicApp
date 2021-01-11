@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -15,11 +16,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import mainApplication.MusicApp;
 import mainApplication.Track;
+import mainApplication.Track.TimeBlock;
 
 public class MainController implements Initializable {
 	private MusicApp musicApp = MusicApp.getInstance();
@@ -35,6 +38,9 @@ public class MainController implements Initializable {
 	private Track track;
 	
 	private int playingType = -1; // Default playing Major chord. 0 => Minor, 1 => Individual Notes
+	
+	private String pressedKey = null;
+	private int choicePosition = 0;
 	
 	@FXML
 	private Pane panePiano; 
@@ -52,10 +58,16 @@ public class MainController implements Initializable {
 	private HBox hBoxTrack;
 	
 	@FXML
-	private ChoiceBox choiceBoxPosition;
+	private ChoiceBox<String> choiceBoxPosition;
 	
 	@FXML
 	private Label lblPressedKey;
+	
+	@FXML
+	private VBox vBoxInsert;
+	
+	@FXML
+	private Label lblErrorMsg;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -87,6 +99,32 @@ public class MainController implements Initializable {
 			
 			keys.add(tile);
 			panePiano.getChildren().add(tile);
+		}
+		
+		// Initializing choiceBoxPosition
+		updatePositionChoice();
+		choiceBoxPosition.setValue("0 ms");
+		
+		// Listening for changes in choiceBoxPosition
+		choiceBoxPosition.getSelectionModel().selectedIndexProperty().addListener(
+			(ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
+	            choicePosition = (int) new_val;
+			});
+	}
+	
+	// Method that runs when Insert button is clicked
+	public void btnInsertSound() {
+		if(pressedKey == null) {
+			lblErrorMsg.setText("Please enter key on the piano");
+		} else {
+			lblErrorMsg.setText("");
+			track.getTimeBlock(choicePosition).addSoundBlock(0, musicApp.translatePlayingType(playingType), pressedKey);
+		}
+	}
+	
+	public void updatePositionChoice() {
+		for(TimeBlock t : track.getTimeBlocks()) {
+			choiceBoxPosition.getItems().add(t.getBlockID()*500 + " ms");
 		}
 	}
 	
@@ -140,7 +178,10 @@ public class MainController implements Initializable {
 				@Override
 				public void handle(MouseEvent arg0) {
 					System.out.println("key: " + id);
-					lblPressedKey.setText("Insert key/chord: " + musicApp.translateIdToKey(Math.abs(id), playingType));
+					
+					pressedKey =  musicApp.translateIdToKey(Math.abs(id), playingType);
+					lblPressedKey.setText("Insert key/chord: " + pressedKey);
+					
 					System.out.println(musicApp.translateIdToKey(Math.abs(id), playingType));
 					musicApp.getAudioPlayer().playKey(Math.abs(id), playingType);
 				}
