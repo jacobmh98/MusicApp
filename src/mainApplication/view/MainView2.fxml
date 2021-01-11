@@ -47,19 +47,7 @@
       <Button layoutX="31.0" layoutY="380.0" mnemonicParsing="false" text="Play Song" />
       <ScrollPane layoutX="31.0" layoutY="100.0" prefHeight="271.0" prefWidth="1040.0" vbarPolicy="NEVER">
          <content>
-            <HBox fx:id="hBoxTrack" prefHeight="270.0" prefWidth="1040.0">
-               <children>
-                  <VBox prefWidth="75.0" styleClass="timeBlock">
-                     <children>
-                        <Label text="test" />
-                        <Pane prefHeight="20.0" styleClass="soundBlock">
-                           <children>
-                              <Label alignment="CENTER" layoutX="24.0" layoutY="2.0" text="C" />
-                           </children>
-                        </Pane>
-                     </children>
-                  </VBox>
-               </children></HBox>
+            <HBox fx:id="hBoxTrack" prefHeight="270.0" prefWidth="1040.0" />
          </content></ScrollPane>
    </children>
 </AnchorPane>

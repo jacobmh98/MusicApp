@@ -21,4 +21,7 @@
 .soundBlock {
 	-fx-background-radius: 3;
 	-fx-border-radius: 3;
+	-fx-padding: 5;
+	-fx-border-insets: 2 0 2 0;
+    -fx-background-insets: 2 0 2 0;
 }
