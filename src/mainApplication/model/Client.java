@@ -9,9 +9,14 @@ import org.jspace.ActualField;
 import org.jspace.FormalField;
 import org.jspace.RemoteSpace;
 
-public class Client {
+public class Client implements Runnable {
+	private int me;
+	public Client(int me) {
+		this.me = me;
+		
+	}
 
-	public static void main(String[] args) {
+	public void run() {
 		try { 
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 

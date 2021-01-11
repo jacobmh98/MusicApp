@@ -13,8 +13,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import mainApplication.MusicApp;
+import mainApplication.model.Server;
 
 public class LoginController implements Initializable {
+	
+	String name;
+	String id;
 	@FXML
 	private TextField txtName;
 	
@@ -26,10 +30,17 @@ public class LoginController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		instance = MusicApp.getInstance(); 
+		
 	}
+	
 	
 	public void StartCreating(ActionEvent event ) throws Exception {
 		((Node) event.getSource()).getScene().getWindow().hide();
+		name = txtName.getText();
+		id = txtId.getText();
+		Thread server = new Thread(new Server(id));
+		server.start();
+		
 		
 		try {
 			Stage primaryStage = new Stage();
