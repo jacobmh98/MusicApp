@@ -16,8 +16,8 @@
 
 <AnchorPane id="bgt_main" prefHeight="867.0" prefWidth="1428.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainApplication.controller.MainController">
    <children>
-      <Pane fx:id="panePiano" layoutX="31.0" layoutY="419.0" prefHeight="130.0" prefWidth="1040.0" />
-      <VBox layoutX="282.0" layoutY="561.0" prefHeight="122.0" prefWidth="199.0">
+      <Pane fx:id="panePiano" layoutX="35.0" layoutY="436.0" prefHeight="130.0" prefWidth="1040.0" />
+      <VBox layoutX="286.0" layoutY="578.0" prefHeight="122.0" prefWidth="199.0">
          <children>
             <RadioButton fx:id="radioBtnMajor" mnemonicParsing="false" onAction="#radioBtnSelect" selected="true" text="Play Major Chords">
                <VBox.margin>
@@ -40,16 +40,16 @@
             <Font name="Calibri" size="24.0" />
          </font>
       </Label>
-      <Text layoutX="31.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vehicula at quam sed porta. Integer lobortis porttitor finibus. Cras id ligula quis turpis aliquet sagittis ultrices vitae ante. Donec ac consequat augue. Praesent a sollicitudin lorem. Fusce non lectus rhoncus, interdum neque nec, porttitor urna. Nunc rhoncus urna vitae ligula vestibulum malesuada." wrappingWidth="764.13671875">
+      <Text layoutX="31.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Music Creator. To use this app select if you wan’t to play an individual key or chord, select a time position and press Insert Sound to insert the chosen key/chord. Use the control buttons below the track, to listen to your song or extend or short the duration. Use the mouse to listen to individual sounds blocks by left clicking on the inserted sound in the track. To delete a specific delete right click on it and it will be removed from the track." wrappingWidth="764.13671875">
          <font>
             <Font name="Calibri" size="13.0" />
          </font>
       </Text>
-      <ScrollPane layoutX="31.0" layoutY="100.0" prefHeight="271.0" prefWidth="1040.0">
+      <ScrollPane layoutX="35.0" layoutY="117.0" prefHeight="271.0" prefWidth="1040.0">
          <content>
             <HBox fx:id="hBoxTrack" prefHeight="270.0" prefWidth="1040.0" />
          </content></ScrollPane>
-      <VBox fx:id="vBoxInsert" layoutX="27.0" layoutY="561.0" prefHeight="149.0" prefWidth="255.0">
+      <VBox fx:id="vBoxInsert" layoutX="31.0" layoutY="578.0" prefHeight="149.0" prefWidth="255.0">
          <children>
             <Label fx:id="lblPressedKey" text="Insert key/chord: press a key on the piano">
                <opaqueInsets>
@@ -77,8 +77,8 @@
             </Label>
          </children>
       </VBox>
-      <Button layoutX="109.0" layoutY="380.0" mnemonicParsing="false" onAction="#btnInsertColumn" text="Insert Column" />
-      <Button layoutX="207.0" layoutY="380.0" mnemonicParsing="false" onAction="#btnDeleteColumn" text="Delete Column" />
-      <Button layoutX="31.0" layoutY="380.0" mnemonicParsing="false" onAction="#btnPlaySong" text="Play Song" />
+      <Button layoutX="113.0" layoutY="397.0" mnemonicParsing="false" onAction="#btnInsertColumn" text="Insert Column" />
+      <Button layoutX="211.0" layoutY="397.0" mnemonicParsing="false" onAction="#btnDeleteColumn" text="Delete Column" />
+      <Button layoutX="35.0" layoutY="397.0" mnemonicParsing="false" onAction="#btnPlaySong" text="Play Song" />
    </children>
 </AnchorPane>
