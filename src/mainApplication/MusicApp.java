@@ -3,7 +3,7 @@ package mainApplication;
 public class MusicApp {
 	// Setting up singleton
 	private static MusicApp instance;
-	private AudioPlayer audioPlayer;
+	private static AudioPlayer audioPlayer;
 	private Track track;
 	
 	private MusicApp() {
@@ -20,8 +20,8 @@ public class MusicApp {
 	
 	
 	// Getter method for audio player
-	public AudioPlayer getAudioPlayer() {
-		return this.audioPlayer;
+	public static AudioPlayer getAudioPlayer() {
+		return audioPlayer;
 	}
 	
 	// Getter & setter method for track

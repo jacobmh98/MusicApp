@@ -3,9 +3,13 @@ package mainApplication;
 import java.util.ArrayList;
 
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 public class Track {
 	private HBox paneTrack;
@@ -83,7 +87,7 @@ public class Track {
 		
 		// Add SoundBlock
 		public void addSoundBlock(int personID, int playingType, String key, int keyID) {
-			SoundBlock soundBlock = new SoundBlock(personID, playingType, key, keyID);
+			SoundBlock soundBlock = new SoundBlock(personID, playingType, key, keyID, blockID);
 			soundBlocks.add(soundBlock);
 			this.timeBlock.getChildren().add(soundBlock);
 		}
@@ -91,6 +95,12 @@ public class Track {
 		// Getter method for sound blocks
 		public ArrayList<SoundBlock> getSoundBlocks() {
 			return soundBlocks;
+		}
+		
+		// Method for deleting sound block
+		public void deleteSoundBlock(SoundBlock s) {
+			this.soundBlocks.remove(s);
+			this.timeBlock.getChildren().remove(s);
 		}
 		
 		// Getter methods for fields
@@ -108,13 +118,17 @@ public class Track {
 		private String key;
 		private int keyID;
 		private int personID;
+		private int blockID;
 		String[] colors = {"#34a8eb", "#eb5934", "#3be835"};
+		SoundBlock s;
 		
-		public SoundBlock(int personID, int playingType, String key, int keyID) {
+		public SoundBlock(int personID, int playingType, String key, int keyID, int blockID) {
 			this.personID = personID;
 			this.playingType = playingType;
 			this.key = key;
 			this.keyID = keyID;
+			this.blockID = blockID;
+			s = this;
 			
 			Label labelKey = new Label(this.key);
 			if(this.playingType != 1) {
@@ -129,6 +143,20 @@ public class Track {
 			this.setStyle("-fx-background-color: " + colors[this.personID]);
 			this.getStyleClass().add("soundBlock");
 			//this.setStyle("-fx-background-color: " + colors[personID] + ";");
+			
+			//ActionEvent left mouse click
+			this.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent arg0) {
+					if(arg0.getButton() == MouseButton.SECONDARY) {
+						//MusicApp.getInstance().getTrack().getTimeBlock(blockID).getSoundBlocks().remove(this);
+						MusicApp.getInstance().getTrack().getTimeBlock(blockID).deleteSoundBlock(s);
+					} else {
+						System.out.println("left");
+						MusicApp.getAudioPlayer().playKey(keyID, playingType);
+					}
+				}
+			});
 		}
 		
 		// Getter methods for fields
