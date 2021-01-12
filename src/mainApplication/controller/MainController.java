@@ -78,7 +78,9 @@ public class MainController implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-				
+		// ADDING TEST USER
+		MusicApp.getInstance().testAddUser();
+		
 		track = MusicApp.getInstance().getCurrentTrack();
 		track.initializeTrack(hBoxTrack);
 				
@@ -146,8 +148,7 @@ public class MainController implements Initializable {
 			lblErrorMsg.setText("Please enter key on the piano");
 		} else {
 			lblErrorMsg.setText("");
-			//track.getTimeBlock(choicePosition).addSoundBlock(0, musicApp.translatePlayingType(playingType), pressedKey);
-			track.getTimeBlock(choicePosition).addSoundBlock(0, playingType, pressedKey ,Math.abs(pressedKeyID));
+			track.getTimeBlock(choicePosition).addSoundBlock(playingType, pressedKey ,Math.abs(pressedKeyID));
 		}
 	}
 	

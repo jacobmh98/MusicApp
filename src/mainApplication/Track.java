@@ -111,8 +111,8 @@ public class Track {
 		}
 		
 		// Add SoundBlock
-		public void addSoundBlock(int personID, int playingType, String key, int keyID) {
-			SoundBlock soundBlock = new SoundBlock(personID, playingType, key, keyID, blockID);
+		public void addSoundBlock(int playingType, String key, int keyID) {
+			SoundBlock soundBlock = new SoundBlock(playingType, key, keyID, blockID);
 			soundBlocks.add(soundBlock);
 			this.timeBlock.getChildren().add(soundBlock);
 		}
@@ -138,57 +138,4 @@ public class Track {
 		}
 	}
 	
-	// new class SoundBlock
-	public class SoundBlock extends StackPane {
-		private int playingType;
-		private String key;
-		private int keyID;
-		private int personID;
-		private int blockID;
-		String[] colors = musicApp.getUserColors();
-		SoundBlock s;
-		
-		public SoundBlock(int personID, int playingType, String key, int keyID, int blockID) {
-			this.personID = personID;
-			this.playingType = playingType;
-			this.key = key;
-			this.keyID = keyID;
-			this.blockID = blockID;
-			s = this;
-			
-			Label labelKey = new Label(this.key);
-			if(this.playingType != 1) {
-				labelKey.setText(this.key);
-			}
-			
-			this.getChildren().add(labelKey);
-			this.prefHeight(20);
-			this.minHeight(20);
-			this.maxHeight(20);
-			
-			this.setStyle("-fx-background-color: " + colors[this.personID]);
-			this.getStyleClass().add("soundBlock");
-			
-			//ActionEvent for both left and right mouse click
-			this.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent arg0) {
-					if(arg0.getButton() == MouseButton.SECONDARY) {
-						MusicApp.getInstance().getCurrentTrack().getTimeBlock(blockID).deleteSoundBlock(s);
-					} else {
-						System.out.println("left");
-						MusicApp.getAudioPlayer().playKey(keyID, playingType);
-					}
-				}
-			});
-		}
-		
-		// Getter methods for fields
-		public int getPlayingType() {
-			return this.playingType;
-		}
-		public int getKeyID() {
-			return this.keyID;
-		}
-	}
 }

@@ -2,7 +2,7 @@ package mainApplication;
 
 import java.util.ArrayList;
 
-import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -29,6 +29,16 @@ public class CreatorsView {
 			
 			creatorsView.getChildren().add(creatorsViewUserVisual);
 		}
+		
+		// TEMPORARY BUTTON FOR TESTING
+		Button b = new Button("SWITCH USER");
+		
+		b.setOnAction( e -> {
+			System.out.println("test");// TESTING WITH ANOTHER USER
+			
+			MusicApp.getInstance().testSwitchUser("Max");
+		});
+		creatorsView.getChildren().add(b);
 	}
 	
 	private class CreatorsViewUser extends HBox {
