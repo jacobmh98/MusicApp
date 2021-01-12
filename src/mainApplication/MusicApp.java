@@ -1,13 +1,23 @@
 package mainApplication;
 
+import java.util.ArrayList;
+
 public class MusicApp {
 	// Setting up singleton
+	private static String[] USER_COLORS = {"#34a8eb", "#eb5934", "#3be835", "#fcfc03", "#c603fc"};
 	private static MusicApp instance;
 	private static AudioPlayer audioPlayer;
-	private Track track;
+	private Track currentTrack;
+	private ArrayList<Track> allTracks = new ArrayList<Track>();
+	private User currentUser;
 	
 	private MusicApp() {
 		audioPlayer= new AudioPlayer();
+	}
+	
+	// Gettet method for USER_COLORS
+	public String[] getUserColors() {
+		return USER_COLORS;
 	}
 	
 	// Method returning instance
@@ -24,21 +34,43 @@ public class MusicApp {
 		return audioPlayer;
 	}
 	
-	// Getter & setter method for track
-	public void setTrack(Track t) {
-		this.track = t;
-	}
-	public Track getTrack() {
-		return this.track;
+	// Getter method for track
+	public Track getCurrentTrack() {
+		return this.currentTrack;
 	}
 	
 	// Login coordination
 	private boolean loginStatus = false;
+	
 	public boolean getLoginStatus() {
 		return loginStatus;
 	}
-	public void login(boolean b) {
-		this.loginStatus = b;
+
+	// Method to login to either existing track of creating new track
+	public void login(String userName, int trackID, String trackName) {
+		this.loginStatus = true;
+		
+		currentUser = new User(userName);
+		
+		if(!(trackName.isEmpty())) {
+			createNewTrack(userName, trackID, trackName);
+		} else {
+			enterExistingTrack();
+		}
+		
+
+		currentTrack.addUserToTrack(currentUser);
+	}
+	
+	// Method to create a new track
+	public void createNewTrack(String name, int trackID, String trackName) {
+		currentTrack = new Track(name, trackID);
+		allTracks.add(currentTrack);
+	}
+	
+	// Method to enter existing track
+	public void enterExistingTrack() {
+		
 	}
 	
 	// Method to translate from node key to string node fx: -40 --> C#4_major

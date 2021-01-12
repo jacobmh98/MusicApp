@@ -2,31 +2,50 @@ package mainApplication;
 
 import java.util.ArrayList;
 
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 
 public class Track {
 	private HBox paneTrack;
 	private ArrayList<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
 	private MusicApp musicApp = MusicApp.getInstance();
 	private int timeBlockCount = 0;
+	private ArrayList<User> trackUsers = new ArrayList<User>();
+	private int trackID;
+	private String trackName;
 	
-	public Track(HBox paneTrack) {
-		this.paneTrack = paneTrack;
-		reset();
-		musicApp.setTrack(this);
+	public Track(String trackName, int trackID) {
+		this.trackName = trackName;
+		this.trackID = trackID;
 	}
 	
-	public void reset() {
+	// Method to intialize the empty track with a pane
+	public void initializeTrack(HBox paneTrack) {
+		this.paneTrack = paneTrack;
+		
 		for(int i = 0; i < 5; i++) {
 			addTimeBlock();
 		}
+	}
+	
+	// Getter method for Track ID
+	public int getTrackID() {
+		return this.trackID;
+	}
+	
+	// Getter method for trackUsers
+	public ArrayList<User> getTrackUsers() {
+		return trackUsers;
+	}
+	
+	// Add user to track
+	public void addUserToTrack(User u) {
+		this.trackUsers.add(u);
 	}
 	
 	// Add TimeBlock
@@ -66,6 +85,7 @@ public class Track {
 		return leftOverTimeBlocks;
 	}
 	
+	// new class Timeblock
 	public class TimeBlock {
 		private VBox timeBlock;
 		private int blockID;
@@ -113,13 +133,14 @@ public class Track {
 		}
 	}
 	
+	// new class SoundBlock
 	public class SoundBlock extends StackPane {
 		private int playingType;
 		private String key;
 		private int keyID;
 		private int personID;
 		private int blockID;
-		String[] colors = {"#34a8eb", "#eb5934", "#3be835"};
+		String[] colors = musicApp.getUserColors();
 		SoundBlock s;
 		
 		public SoundBlock(int personID, int playingType, String key, int keyID, int blockID) {
@@ -142,15 +163,13 @@ public class Track {
 			
 			this.setStyle("-fx-background-color: " + colors[this.personID]);
 			this.getStyleClass().add("soundBlock");
-			//this.setStyle("-fx-background-color: " + colors[personID] + ";");
 			
-			//ActionEvent left mouse click
+			//ActionEvent for both left and right mouse click
 			this.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent arg0) {
 					if(arg0.getButton() == MouseButton.SECONDARY) {
-						//MusicApp.getInstance().getTrack().getTimeBlock(blockID).getSoundBlocks().remove(this);
-						MusicApp.getInstance().getTrack().getTimeBlock(blockID).deleteSoundBlock(s);
+						MusicApp.getInstance().getCurrentTrack().getTimeBlock(blockID).deleteSoundBlock(s);
 					} else {
 						System.out.println("left");
 						MusicApp.getAudioPlayer().playKey(keyID, playingType);

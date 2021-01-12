@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="bgt_main" prefHeight="867.0" prefWidth="1428.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainApplication.controller.MainController">
+<AnchorPane id="bgt_main" prefHeight="730.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainApplication.controller.MainController">
    <children>
       <Pane fx:id="panePiano" layoutX="35.0" layoutY="436.0" prefHeight="130.0" prefWidth="1040.0" />
       <VBox layoutX="286.0" layoutY="578.0" prefHeight="122.0" prefWidth="199.0">
@@ -80,5 +80,6 @@
       <Button layoutX="113.0" layoutY="397.0" mnemonicParsing="false" onAction="#btnInsertColumn" text="Insert Column" />
       <Button layoutX="211.0" layoutY="397.0" mnemonicParsing="false" onAction="#btnDeleteColumn" text="Delete Column" />
       <Button layoutX="35.0" layoutY="397.0" mnemonicParsing="false" onAction="#btnPlaySong" text="Play Song" />
+      <VBox fx:id="vboxCreatorsView" layoutX="1100.0" layoutY="117.0" prefHeight="265.0" prefWidth="177.0" />
    </children>
 </AnchorPane>

@@ -30,7 +30,6 @@ public class LoginController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		instance = MusicApp.getInstance(); 
-		
 	}
 	
 	public void StartCreating(ActionEvent event ) throws Exception {
@@ -40,13 +39,16 @@ public class LoginController implements Initializable {
 		Thread server = new Thread(new Server(id));
 		server.start();
 		
+		//SIMULATE LOGIN
+		MusicApp.getInstance().login("Jacob",2459,"Super Noise Awesome Track");
+		
 		try {
 			Stage primaryStage = new Stage();
 			primaryStage.setTitle("Create Music");
 			FXMLLoader loader = new FXMLLoader();
 			Parent root;
-			root = loader.load(getClass().getResource("../view/MainView3.fxml").openStream());
-			Scene scene = new Scene(root, 1400, 800);
+			root = loader.load(getClass().getResource("../view/MainView4.fxml").openStream());
+			Scene scene = new Scene(root, 1300, 730);
 			scene.getStylesheets().addAll(this.getClass().getResource("../resources/app.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
