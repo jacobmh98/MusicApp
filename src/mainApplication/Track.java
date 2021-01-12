@@ -43,6 +43,11 @@ public class Track {
 		return trackUsers;
 	}
 	
+	// Getter method for track name
+	public String getTrackName() {
+		return this.trackName;
+	}
+	
 	// Add user to track
 	public void addUserToTrack(User u) {
 		this.trackUsers.add(u);

@@ -2,7 +2,7 @@ package mainApplication;
 
 public class User {
 	private String name;
-	private String color;
+	private int color;
 	
 	public User(String name) {
 		this.name = name;
@@ -14,12 +14,12 @@ public class User {
 	}
 	
 	// Getter method for field color
-	public void setColor(String c) {
+	public void setColor(int c) {
 		this.color = c;
 	}
 	
 	// Setter method for field color
-	public String getColor() {
+	public int getColor() {
 		return this.color;
 	}
 }

@@ -60,11 +60,14 @@ public class MusicApp {
 		
 
 		currentTrack.addUserToTrack(currentUser);
+		
+		// TESTING WITH ANOTHER USER
+		currentTrack.addUserToTrack(new User("Max"));
 	}
 	
 	// Method to create a new track
 	public void createNewTrack(String name, int trackID, String trackName) {
-		currentTrack = new Track(name, trackID);
+		currentTrack = new Track(trackName, trackID);
 		allTracks.add(currentTrack);
 	}
 	

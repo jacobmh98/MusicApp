@@ -40,7 +40,7 @@ public class LoginController implements Initializable {
 		server.start();
 		
 		//SIMULATE LOGIN
-		MusicApp.getInstance().login("Jacob",2459,"Super Noise Awesome Track");
+		MusicApp.getInstance().login("Jacob",2459,"Awesome Track");
 		
 		try {
 			Stage primaryStage = new Stage();

@@ -18,13 +18,13 @@ public class CreatorsView {
 		
 		ArrayList<User> users = MusicApp.getInstance().getCurrentTrack().getTrackUsers();
 		
-		Label title = new Label("Track: " + MusicApp.getInstance().getCurrentTrack().getTrackID());
+		Label title = new Label("Track: " + MusicApp.getInstance().getCurrentTrack().getTrackName());
 		title.setStyle("-fx-font: 15 Calibri; -fx-padding: 0 0 10 0;");
 			
 		creatorsView.getChildren().add(title);
 		
 		for(User u : users) {
-			CreatorsViewUser creatorsViewUser = new CreatorsViewUser(u.getName());
+			CreatorsViewUser creatorsViewUser = new CreatorsViewUser(u);
 			HBox creatorsViewUserVisual = creatorsViewUser.getCreatorsViewUserVisual();
 			
 			creatorsView.getChildren().add(creatorsViewUserVisual);
@@ -33,20 +33,21 @@ public class CreatorsView {
 	
 	private class CreatorsViewUser extends HBox {
 		private HBox creatorsViewUser = new HBox();
-		private String user;
+		private User user;
 		
-		public CreatorsViewUser(String user) {
+		public CreatorsViewUser(User user) {
 			this.user = user;
 			creatorsViewUser.setPrefHeight(21);
 			creatorsViewUser.setPrefWidth(177);
 			
 			Circle c = new Circle();
-			c.setFill(Color.web("#eb5934"));
-			c.setStroke(Color.web("eb5934"));
+			int colorIndex = MusicApp.getInstance().getCurrentTrack().getTrackUsers().indexOf(user);
+			c.setFill(Color.web(MusicApp.getInstance().getUserColors()[colorIndex]));
+			c.setStroke(Color.web(MusicApp.getInstance().getUserColors()[colorIndex]));
 			c.setStrokeType(StrokeType.INSIDE);
 			c.setRadius(8);
 			
-			Label l = new Label(user);
+			Label l = new Label(user.getName());
 			l.setStyle("-fx-padding: 0 0 0 10;");
 			
 			creatorsViewUser.getChildren().addAll(c,l);
