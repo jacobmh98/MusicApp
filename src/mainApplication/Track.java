@@ -15,13 +15,8 @@ public class Track {
 	
 	public Track(HBox paneTrack) {
 		this.paneTrack = paneTrack;
-		this.reset();
-		
-		// adding test sound blocks just to test it out
-		/*timeBlocks.get(0).addSoundBlock(0, "major", "C1");
-		timeBlocks.get(0).addSoundBlock(1, "keys", "A2");
-		timeBlocks.get(1).addSoundBlock(1, "keys", "A3#");
-		timeBlocks.get(2).addSoundBlock(2, "minor", "G#");*/
+		reset();
+		musicApp.setTrack(this);
 	}
 	
 	public void reset() {
@@ -48,13 +43,23 @@ public class Track {
 		}
 	}
 	
-	// Getter methods for single and all TimeBlocks
+	// Getter methods for single, leftover and all TimeBlocks
 	public TimeBlock getTimeBlock(int index) {
 		return timeBlocks.get(index);
 	}
 	
 	public ArrayList<TimeBlock> getTimeBlocks() {
 		return timeBlocks;
+	}
+	
+	public ArrayList<TimeBlock> getLeftOverTimeBlocks(int index) {
+		ArrayList<TimeBlock> leftOverTimeBlocks = new ArrayList<TimeBlock>();
+		
+		for(int i = index; i < timeBlocks.size(); i++) {
+			leftOverTimeBlocks.add(timeBlocks.get(i));
+		}
+		
+		return leftOverTimeBlocks;
 	}
 	
 	public class TimeBlock {
@@ -77,10 +82,15 @@ public class Track {
 		}
 		
 		// Add SoundBlock
-		public void addSoundBlock(int personID, int playingType, String key) {
-			SoundBlock soundBlock = new SoundBlock(personID, playingType, key);
-			
+		public void addSoundBlock(int personID, int playingType, String key, int keyID) {
+			SoundBlock soundBlock = new SoundBlock(personID, playingType, key, keyID);
+			soundBlocks.add(soundBlock);
 			this.timeBlock.getChildren().add(soundBlock);
+		}
+		
+		// Getter method for sound blocks
+		public ArrayList<SoundBlock> getSoundBlocks() {
+			return soundBlocks;
 		}
 		
 		// Getter methods for fields
@@ -93,16 +103,18 @@ public class Track {
 		}
 	}
 	
-	private class SoundBlock extends StackPane {
+	public class SoundBlock extends StackPane {
 		private int playingType;
 		private String key;
+		private int keyID;
 		private int personID;
 		String[] colors = {"#34a8eb", "#eb5934", "#3be835"};
 		
-		public SoundBlock(int personID, int playingType, String key) {
+		public SoundBlock(int personID, int playingType, String key, int keyID) {
 			this.personID = personID;
 			this.playingType = playingType;
 			this.key = key;
+			this.keyID = keyID;
 			
 			Label labelKey = new Label(this.key);
 			if(this.playingType != 1) {
@@ -117,6 +129,14 @@ public class Track {
 			this.setStyle("-fx-background-color: " + colors[this.personID]);
 			this.getStyleClass().add("soundBlock");
 			//this.setStyle("-fx-background-color: " + colors[personID] + ";");
+		}
+		
+		// Getter methods for fields
+		public int getPlayingType() {
+			return this.playingType;
+		}
+		public int getKeyID() {
+			return this.keyID;
 		}
 	}
 }

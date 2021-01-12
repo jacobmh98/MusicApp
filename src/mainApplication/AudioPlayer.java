@@ -1,6 +1,9 @@
 package mainApplication;
 
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -8,10 +11,12 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class AudioPlayer {
-	Track track;
+import mainApplication.Track.SoundBlock;
+import mainApplication.Track.TimeBlock;
 
-	public AudioPlayer() {}
+public class AudioPlayer {
+	public AudioPlayer() {
+	}
 	
 	public void playKey(int audioID, int playingType) {
 		System.out.println("playing..");
@@ -38,7 +43,34 @@ public class AudioPlayer {
 		}
 	}
 	
-	public void playSong() {
+	public void playSong(Track track) {
+		System.out.println("playing song");
+		int timeBlockCounter = 0;
 		
+		for(TimeBlock t : track.getTimeBlocks()) {
+			for(SoundBlock s : t.getSoundBlocks()) {
+				playKey(s.getKeyID(), s.getPlayingType());
+			}
+			
+			timeBlockCounter++;
+			
+			if(timeBlockCounter != track.getTimeBlocks().size() && containsMoreSounds(timeBlockCounter, track)) {
+				
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public boolean containsMoreSounds(int timeBlockCounter, Track track) {
+		for(TimeBlock t : track.getLeftOverTimeBlocks(timeBlockCounter)) {
+			if(t.getSoundBlocks().size() != 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -39,6 +39,8 @@ public class MainController implements Initializable {
 	private int playingType = -1; // Default playing Major chord. 0 => Minor, 1 => Individual Notes
 	
 	private String pressedKey = null;
+	private int pressedKeyID;
+	
 	private int choicePosition = 0;
 	
 	@FXML
@@ -122,6 +124,11 @@ public class MainController implements Initializable {
 		updatePositionChoice();
 	}
 	
+	// Method that runs when play button is clicked
+	public void btnPlaySong() {
+		musicApp.getAudioPlayer().playSong(track);
+	}
+	
 	// Method that runs when Insert button is clicked
 	public void btnInsertSound() {
 		if(pressedKey == null) {
@@ -129,7 +136,7 @@ public class MainController implements Initializable {
 		} else {
 			lblErrorMsg.setText("");
 			//track.getTimeBlock(choicePosition).addSoundBlock(0, musicApp.translatePlayingType(playingType), pressedKey);
-			track.getTimeBlock(choicePosition).addSoundBlock(0, playingType, pressedKey);
+			track.getTimeBlock(choicePosition).addSoundBlock(0, playingType, pressedKey ,Math.abs(pressedKeyID));
 		}
 	}
 	
@@ -194,6 +201,7 @@ public class MainController implements Initializable {
 					System.out.println("key: " + id);
 					
 					pressedKey =  musicApp.translateIdToKey(Math.abs(id), playingType);
+					pressedKeyID = id;
 					lblPressedKey.setText("Insert key/chord: " + pressedKey);
 					
 					System.out.println(musicApp.translateIdToKey(Math.abs(id), playingType));

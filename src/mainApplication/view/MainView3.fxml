@@ -17,7 +17,7 @@
 <AnchorPane id="bgt_main" prefHeight="867.0" prefWidth="1428.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainApplication.controller.MainController">
    <children>
       <Pane fx:id="panePiano" layoutX="31.0" layoutY="419.0" prefHeight="130.0" prefWidth="1040.0" />
-      <VBox layoutX="1095.0" layoutY="419.0" prefHeight="122.0" prefWidth="199.0">
+      <VBox layoutX="282.0" layoutY="561.0" prefHeight="122.0" prefWidth="199.0">
          <children>
             <RadioButton fx:id="radioBtnMajor" mnemonicParsing="false" onAction="#radioBtnSelect" selected="true" text="Play Major Chords">
                <VBox.margin>
@@ -45,7 +45,6 @@
             <Font name="Calibri" size="13.0" />
          </font>
       </Text>
-      <Button layoutX="31.0" layoutY="380.0" mnemonicParsing="false" text="Play Song" />
       <ScrollPane layoutX="31.0" layoutY="100.0" prefHeight="271.0" prefWidth="1040.0">
          <content>
             <HBox fx:id="hBoxTrack" prefHeight="270.0" prefWidth="1040.0" />
@@ -78,7 +77,8 @@
             </Label>
          </children>
       </VBox>
-      <Button layoutX="110.0" layoutY="380.0" mnemonicParsing="false" onAction="#btnInsertColumn" text="Insert Column" />
-      <Button layoutX="209.0" layoutY="380.0" mnemonicParsing="false" onAction="#btnDeleteColumn" text="Delete Column" />
+      <Button layoutX="109.0" layoutY="380.0" mnemonicParsing="false" onAction="#btnInsertColumn" text="Insert Column" />
+      <Button layoutX="207.0" layoutY="380.0" mnemonicParsing="false" onAction="#btnDeleteColumn" text="Delete Column" />
+      <Button layoutX="31.0" layoutY="380.0" mnemonicParsing="false" onAction="#btnPlaySong" text="Play Song" />
    </children>
 </AnchorPane>

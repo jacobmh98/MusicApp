@@ -33,14 +33,12 @@ public class LoginController implements Initializable {
 		
 	}
 	
-	
 	public void StartCreating(ActionEvent event ) throws Exception {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		name = txtName.getText();
 		id = txtId.getText();
 		Thread server = new Thread(new Server(id));
 		server.start();
-		
 		
 		try {
 			Stage primaryStage = new Stage();

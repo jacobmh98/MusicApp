@@ -4,6 +4,7 @@ public class MusicApp {
 	// Setting up singleton
 	private static MusicApp instance;
 	private AudioPlayer audioPlayer;
+	private Track track;
 	
 	private MusicApp() {
 		audioPlayer= new AudioPlayer();
@@ -17,12 +18,16 @@ public class MusicApp {
 		return instance;
 	}
 	
+	
 	// Getter method for audio player
 	public AudioPlayer getAudioPlayer() {
 		return this.audioPlayer;
 	}
 	
-	// Getter method for track
+	// Getter & setter method for track
+	public void setTrack(Track t) {
+		this.track = t;
+	}
 	public Track getTrack() {
 		return this.track;
 	}
@@ -36,6 +41,7 @@ public class MusicApp {
 		this.loginStatus = b;
 	}
 	
+	// Method to translate from node key to string node fx: -40 --> C#4_major
 	public String translateIdToKey(int id, int playingType) {
 		String[] keys = {"A","A#","B","C","C#","D","D#","E","F","F#","G","G#"};
 		String key;
