@@ -22,12 +22,12 @@
                   <Insets bottom="20.0" top="10.0" />
                </VBox.margin>
             </TextField>
-            <Label text="Enter chat-id below" textFill="#da5353">
+            <Label text="Enter track-URI below" textFill="#da5353">
                <font>
                   <Font name="Comic Sans MS" size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="txtId" focusTraversable="false" prefHeight="30.0" promptText="Chat-id here" />
+            <TextField fx:id="txtId" focusTraversable="false" prefHeight="30.0" promptText="Leave empty for default URI" />
             <Button mnemonicParsing="false" onAction="#StartCreating" prefHeight="25.0" prefWidth="130.0" text="Start Creating" textFill="#da5353">
                <VBox.margin>
                   <Insets top="20.0" />

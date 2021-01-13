@@ -1,10 +1,15 @@
 package mainApplication;
 
+import java.util.ArrayList;
+
 public class MusicApp {
 	// Setting up singleton
 	private static MusicApp instance;
 	private static AudioPlayer audioPlayer;
 	private Track track;
+	
+	private ArrayList<Integer> userIDList = new ArrayList<Integer>();
+	private String trackID;
 	
 	private MusicApp() {
 		audioPlayer= new AudioPlayer();
@@ -51,5 +56,21 @@ public class MusicApp {
 			key = keys[id % 12] + (int) (Math.floor(id / 12) + 1);
 		}
 		return key;
+	}
+
+	public ArrayList<Integer> getUserIDList() {
+		return userIDList;
+	}
+
+	public void setUserIDList(ArrayList<Integer> userIDList) {
+		this.userIDList = userIDList; 
+	}
+
+	public String getTrackID() {
+		return trackID;
+	}
+
+	public void setTrackID(String trackID) {
+		this.trackID = trackID;
 	}
 }

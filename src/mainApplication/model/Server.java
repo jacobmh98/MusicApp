@@ -9,14 +9,18 @@ import java.net.URISyntaxException;
 import org.jspace.ActualField;
 import org.jspace.FormalField;
 import org.jspace.SequentialSpace;
+import org.jspace.Space;
 import org.jspace.SpaceRepository;
+
+import mainApplication.MusicApp;
 
 public class Server implements Runnable {
 	private String trackID;
+	private MusicApp instance;
 	
-	public Server(String trackID) {
+	public Server(String trackID, MusicApp instance) {
 		this.trackID = trackID;
-		
+		this.instance = instance;
 	}
 	
 	public void run() {
@@ -24,13 +28,14 @@ public class Server implements Runnable {
 		try {
 			
 			//BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-
+			//System.out.println(trackID);
 			// Create a repository 
 			SpaceRepository repository = new SpaceRepository();
 
 			// Create a local space for the track
 			SequentialSpace track = new SequentialSpace();
 			SequentialSpace chords = new SequentialSpace();
+			Space users = new SequentialSpace();
 			chords.put("A");
 			chords.put("B");
 			chords.put("C");
@@ -52,10 +57,12 @@ public class Server implements Runnable {
 			
 			// Open a gate
 			URI myUri = new URI(uri);
+			//System.out.println(myUri.toString());
 			String gateUri = "tcp://" + myUri.getHost() + ":" + myUri.getPort() +  "/track?keep" ;
 			System.out.println("Opening repository gate at " + gateUri + "...");
 			repository.addGate(gateUri);
-		
+			
+			System.out.println(instance.getUserIDList().toString());
 //			URI chordsURI = new URI("tcp://127.0.0.1:9001/chords?keep");
 //			String gateUriChords = "tcp://" + chordsURI.getHost() + ":" + chordsURI.getPort() +  "/chords?keep" ;
 //			System.out.println("Opening repository gate at " + gateUriChords + "...");
@@ -63,6 +70,10 @@ public class Server implements Runnable {
 			
 			// Keep reading chat messages and printing them 
 			while (true) {
+//				for(int i : instance.getUserIDList()) {
+//					users.put(i);
+//				}
+				
 				Object[] t = track.get(new FormalField(String.class), new FormalField(Integer.class));				
 				System.out.println("Client wants " + t[0] + " for " + t[1] + " milliseconds");
 				String t0 = (String) t[0];

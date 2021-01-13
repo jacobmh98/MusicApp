@@ -10,20 +10,25 @@ import org.jspace.FormalField;
 import org.jspace.RemoteSpace;
 
 public class Client implements Runnable {
-	private int me;
-	public Client(int me) {
-		this.me = me;
+	private int id;
+	private String name;
+	private String trackUri;
+	
+	public Client(int id, String name, String trackUri) {
+		this.id = id;
+		this.name = name;
+		this.trackUri = trackUri;
 		
 	}
 
 	public void run() {
 		try { 
-		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+		//BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
 		// Set the URI of the chat space
 		// Default value
 		System.out.print("Enter URI of the chat server or press enter for default: ");
-		String uri = input.readLine();
+		String uri = trackUri;
 		// Default value
 		if (uri.isEmpty()) { 
 			uri = "tcp://127.0.0.1:9001/track?keep";
@@ -34,20 +39,12 @@ public class Client implements Runnable {
 		RemoteSpace track = new RemoteSpace(uri);
 
 		// Read user name from the console			
-		System.out.print("Enter your name: ");
-		String name = input.readLine();
+		System.out.println(name);
 
 		// Keep sending whatever the user types
-		System.out.println("Start musicing...");
-		while(true) {
-			String chord = input.readLine();
-			Integer length = Integer.parseInt(input.readLine());
-			track.put(chord, length);
-		}			
+		System.out.println("Start musicing...");		
 
-
-	} catch (InterruptedException e) {
-		e.printStackTrace();
+		
 	} catch (UnknownHostException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -55,5 +52,23 @@ public class Client implements Runnable {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-}
+	
+	}
+	
+	public void putInTrackSpace(String chord, int timeSlot) {
+		try {
+			RemoteSpace trackSpace = new RemoteSpace(trackUri);
+			trackSpace.put(chord,timeSlot);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }

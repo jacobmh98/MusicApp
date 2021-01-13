@@ -1,8 +1,13 @@
 package mainApplication.controller;
 
+import java.io.IOException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import org.jspace.RemoteSpace;
+import org.jspace.Space;
 
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -27,6 +32,8 @@ import mainApplication.Track.TimeBlock;
 public class MainController implements Initializable {
 	private MusicApp musicApp = MusicApp.getInstance();
 	Track track;
+	
+	//Space trackSpace;
 	
 	private static final int KEY_HEIGHT = 90;
 	private static final int KEY_WIDTH_BLACK = 15;
@@ -74,6 +81,8 @@ public class MainController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		track = new Track(hBoxTrack);
 		
+		
+		
 		int whiteCount = 0;
 		int blackCount = 1;
 		
@@ -111,6 +120,7 @@ public class MainController implements Initializable {
 			(ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
 	            choicePosition = (int) new_val;
 			});
+		
 	}
 	
 	// Method that runs when Insert Column is clicked
@@ -131,13 +141,22 @@ public class MainController implements Initializable {
 	
 	// Method that runs when Insert button is clicked
 	public void btnInsertSound() {
+		//try {
 		if(pressedKey == null) {
 			lblErrorMsg.setText("Please enter key on the piano");
 		} else {
 			lblErrorMsg.setText("");
 			//track.getTimeBlock(choicePosition).addSoundBlock(0, musicApp.translatePlayingType(playingType), pressedKey);
 			track.getTimeBlock(choicePosition).addSoundBlock(0, playingType, pressedKey ,Math.abs(pressedKeyID));
+			
+			//client.putInTrackSpace(pressedKey,choicePosition);
+			
 		}
+		
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 	
 	public void updatePositionChoice() {
