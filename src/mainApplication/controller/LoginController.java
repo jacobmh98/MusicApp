@@ -140,8 +140,6 @@ public class LoginController implements Initializable {
 	}
 	
 	public void startCreating(ActionEvent event ) throws Exception {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		
 		/************************************************************************/
 		// SETTING UP THE SERVER
 		//Thread server = new Thread(new Server(id));
@@ -150,6 +148,7 @@ public class LoginController implements Initializable {
 		//SIMULATE LOGIN FOR CREATING TRACK
 		if(this.selection == 0) {
 			setLoginFieds();
+			((Node) event.getSource()).getScene().getWindow().hide();
 			MusicApp.getInstance().login(this.userName, this.trackID, this.trackName);
 			try {
 				Stage primaryStage = new Stage();
@@ -161,6 +160,8 @@ public class LoginController implements Initializable {
 				primaryStage.setScene(scene);
 				primaryStage.show();
 			} catch (Exception e) {}
+		} else {
+			System.out.println("NOT IMPLEMENTED YET");
 		}
 	}
 	
