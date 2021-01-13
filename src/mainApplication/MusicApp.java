@@ -2,6 +2,8 @@ package mainApplication;
 
 import java.util.ArrayList;
 
+import mainApplication.model.Client;
+
 public class MusicApp {
 	// Setting up singleton
 	private static String[] USER_COLORS = {"#34a8eb", "#eb5934", "#3be835", "#fcfc03", "#c603fc"};
@@ -10,6 +12,8 @@ public class MusicApp {
 	private Track currentTrack;
 	private ArrayList<Track> allTracks = new ArrayList<Track>();
 	private User currentUser;
+	
+	private Client client;
 	
 	private ArrayList<Integer> userIDList = new ArrayList<Integer>();
 	private String trackID;
@@ -51,6 +55,9 @@ public class MusicApp {
 
 	// Method to login to either existing track of creating new track
 	public void login(String userName, int trackID, String trackName) {
+		
+		client = new Client(userName,trackID,trackName);
+		new Thread(client).start();
 		this.loginStatus = true;
 		
 		currentUser = new User(userName);
@@ -106,5 +113,10 @@ public class MusicApp {
 			}
 		}
 	}
+	
+	public Client getClient() {
+		return client;
+	}
+	
 			
 }

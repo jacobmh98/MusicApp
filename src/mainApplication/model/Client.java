@@ -10,39 +10,48 @@ import org.jspace.FormalField;
 import org.jspace.RemoteSpace;
 
 public class Client implements Runnable {
-	private int id;
 	private String name;
-	private String trackUri;
+	private int trackId;
+	private String trackName;
+	RemoteSpace trackRoom_space;
 	
-	public Client(int id, String name, String trackUri) {
-		this.id = id;
+	public Client(String name, int trackId, String trackName) {
 		this.name = name;
-		this.trackUri = trackUri;
-		
+		this.trackId = trackId;
+		this.trackName = trackName;
 	}
 
 	public void run() {
 		try { 
-		//BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
 		// Set the URI of the chat space
 		// Default value
-		System.out.print("Enter URI of the chat server or press enter for default: ");
-		String uri = trackUri;
-		// Default value
-		if (uri.isEmpty()) { 
-			uri = "tcp://127.0.0.1:9001/track?keep";
-		}
-
-		// Connect to the remote chat space 
-		System.out.println("Connecting to track space " + uri + "...");
-		RemoteSpace track = new RemoteSpace(uri);
+		String uri = "tcp://127.0.0.1:9001/login?keep";
+		
+		// Connect to the remote login
+		System.out.println("Connecting to login space " + uri + "...");
+		RemoteSpace login = new RemoteSpace(uri);
 
 		// Read user name from the console			
-		System.out.println(name);
+		System.out.print("Enter your name: ");
+		System.out.print(name);
 
-		// Keep sending whatever the user types
-		System.out.println("Start musicing...");		
+		System.out.print("Select a track room: ");
+		System.out.println(trackName + " has id: " + trackId);
+		Integer trackRoom = trackId;
+		
+		// Send request to enter chatroom
+		login.put("enter",name,trackRoom);
+		System.out.println(name + " requested the track " + trackRoom);
+		
+		Object[] response = login.get(new ActualField("trackURI"), new ActualField(name), new ActualField(trackRoom), new FormalField(String.class));
+		String trackRoom_uri = (String) response[3];
+	    System.out.println("Connecting to track space " + trackRoom_uri);
+		trackRoom_space = new RemoteSpace(trackRoom_uri);
+		
+		
+		System.out.println("Start chatting...");
 
 		
 	} catch (UnknownHostException e) {
@@ -51,24 +60,21 @@ public class Client implements Runnable {
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
 	}
 	
 	}
 	
-	public void putInTrackSpace(String chord, int timeSlot) {
+	public void sendToServer(int keyID, int playingType, int blockID, int userID) {
 		try {
-			RemoteSpace trackSpace = new RemoteSpace(trackUri);
-			trackSpace.put(chord,timeSlot);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			trackRoom_space.put(keyID,playingType,blockID,userID);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
+	
 }

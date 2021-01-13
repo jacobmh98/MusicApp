@@ -157,6 +157,8 @@ public class MainController implements Initializable {
 		} else {
 			lblErrorMsg.setText("");
 			track.getTimeBlock(choicePosition).addSoundBlock(playingType, pressedKey ,Math.abs(pressedKeyID));
+			//System.out.println("choicePosition:" + choicePosition + "     playingType:" + playingType + "      pressedKey:" + pressedKey + "     pressedKeyID" + pressedKeyID);
+			musicApp.getClient().sendToServer(pressedKeyID,playingType,choicePosition,0);
 		}
 		
 //		} catch (InterruptedException e) {

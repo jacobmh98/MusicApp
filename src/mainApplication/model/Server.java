@@ -15,11 +15,9 @@ import org.jspace.SpaceRepository;
 import mainApplication.MusicApp;
 
 public class Server implements Runnable {
-	private String trackID;
 	private MusicApp instance;
 	
-	public Server(String trackID, MusicApp instance) {
-		this.trackID = trackID;
+	public Server(MusicApp instance) {
 		this.instance = instance;
 	}
 	
@@ -32,60 +30,70 @@ public class Server implements Runnable {
 			// Create a repository 
 			SpaceRepository repository = new SpaceRepository();
 
-			// Create a local space for the track
-			SequentialSpace track = new SequentialSpace();
-			SequentialSpace chords = new SequentialSpace();
-			Space users = new SequentialSpace();
-			chords.put("A");
-			chords.put("B");
-			chords.put("C");
-			chords.put("D");
-			chords.put("E");
-			chords.put("F");
-			chords.put("G");
+			//SequentialSpace chords = new SequentialSpace();
+			//"Lobby" is our login
+			Space login = new SequentialSpace();
+			Space tracks = new SequentialSpace();
+//			
+//			chords.put("A");
+//			chords.put("B");
+//			chords.put("C");
+//			chords.put("D");
+//			chords.put("E");
+//			chords.put("F");
+//			chords.put("G");
 
 			// Add the space to the repository
-			repository.add("track", track);
+			repository.add("login",login);
+			repository.add("tracks",tracks);
+			
+			//repository.add("chords",chords);
 			
 			// Set the URI of the chat space
 			System.out.print("Enter URI of the chat server or press enter for default: ");
-			String uri = trackID;
-			// Default value
-			if (uri.isEmpty()) { 
-				uri = "tcp://127.0.0.1:9001/track?keep";
-			}
+			String uri = "tcp://127.0.0.1:9001/login?keep";
 			
-			// Open a gate
-			URI myUri = new URI(uri);
-			//System.out.println(myUri.toString());
-			String gateUri = "tcp://" + myUri.getHost() + ":" + myUri.getPort() +  "/track?keep" ;
-			System.out.println("Opening repository gate at " + gateUri + "...");
-			repository.addGate(gateUri);
 			
-			System.out.println(instance.getUserIDList().toString());
-//			URI chordsURI = new URI("tcp://127.0.0.1:9001/chords?keep");
-//			String gateUriChords = "tcp://" + chordsURI.getHost() + ":" + chordsURI.getPort() +  "/chords?keep" ;
-//			System.out.println("Opening repository gate at " + gateUriChords + "...");
-//			repository.addGate(gateUriChords);
+			repository.addGate(uri);
+			System.out.println("Opening repository gate at " + uri + "...");
 			
 			// Keep reading chat messages and printing them 
 			while (true) {
-//				for(int i : instance.getUserIDList()) {
-//					users.put(i);
-//				}
+				Integer trackC = 0;
+				String trackURI;
+				while(true) {
+					System.out.println("About to get request");
+					Object[] request = login.get(new ActualField("enter"), new FormalField(String.class), new FormalField(Integer.class));
+					
+					String who = (String) request[1];
+					Integer trackID = (Integer) request[2];
+					
+					System.out.println(who + " requesting to enter track with id " + trackID + "...");	
 				
-				Object[] t = track.get(new FormalField(String.class), new FormalField(Integer.class));				
-				System.out.println("Client wants " + t[0] + " for " + t[1] + " milliseconds");
-				String t0 = (String) t[0];
-				Object[] c = chords.queryp(new ActualField(t0));
-				System.out.println("Server retrieved: " + c[0]);
+					Object[] the_track = tracks.queryp(new ActualField(trackID),new FormalField(Integer.class));
+					//If track exists, join it
+					if(the_track != null) {
+						System.out.println(the_track[0] + "  " + the_track[1]);
+						trackURI = "tcp://127.0.0.1:9001/track" + the_track[1] + "?keep";
+					//If track doesn't exist, create one
+					} else {
+						System.out.println("Creating room " + trackID + " for " + who + " ...");	
+						trackURI = "tcp://127.0.0.1:9001/track" + trackC + "?keep";
+						System.out.println("Setting up chat space " + trackURI + "...");
+						new Thread(new roomHandler(trackID,"track"+trackC,trackURI,repository)).start();
+						tracks.put(trackID,trackC);
+						trackC++;
+					}
+					
+					
+					System.out.println("Telling " + who + " to go for room " + trackID + " at " + trackURI + "...");
+					login.put("trackURI", who, trackID, trackURI);
+					
+				}
 				
 			}
 
 		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -93,4 +101,42 @@ public class Server implements Runnable {
 	}
 	
 
+}
+
+
+
+class roomHandler implements Runnable {
+
+	private Space track;
+	private Integer trackID;
+	private String spaceID;
+
+	public roomHandler(Integer trackID, String spaceID, String uri, SpaceRepository repository) {
+
+		this.trackID = trackID;
+		this.spaceID = spaceID;
+		
+		// Create a local space for the chatroom
+		track = new SequentialSpace();
+
+		// Add the space to the repository
+		repository.add(this.spaceID, track);
+
+	}
+
+	@Override
+	public void run() {
+		try {
+
+			// Keep reading chat messages and printing them 
+			while (true) {
+				Object[] message = track.get(new FormalField(Integer.class), new FormalField(Integer.class), new FormalField(Integer.class),new FormalField(Integer.class) );
+				System.out.println("Key " + message[0] + " | PlayingType " + message[1] + " | BlockID " + message[2] + " | UserID " + message[3] );
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+
+	}
 }

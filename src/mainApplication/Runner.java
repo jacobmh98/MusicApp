@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import mainApplication.model.Server;
 
 public class Runner extends Application {
 
@@ -17,6 +18,9 @@ public class Runner extends Application {
 		
 		if(!instance.getLoginStatus()) {
 			try {
+				new Thread(new Server(instance)).start();
+				
+				
 				Stage primaryStage = new Stage();
 				primaryStage.setTitle("Login");
 				FXMLLoader loader = new FXMLLoader();
