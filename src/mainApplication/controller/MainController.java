@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -25,6 +26,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import mainApplication.CreatorsView;
 import mainApplication.MusicApp;
 import mainApplication.Track;
 import mainApplication.Track.TimeBlock;
@@ -32,6 +34,7 @@ import mainApplication.Track.TimeBlock;
 public class MainController implements Initializable {
 	private MusicApp musicApp = MusicApp.getInstance();
 	Track track;
+	private CreatorsView creatorsView;
 	
 	//Space trackSpace;
 	
@@ -77,12 +80,17 @@ public class MainController implements Initializable {
 	@FXML
 	private Label lblErrorMsg;
 	
+	@FXML
+	private VBox vboxCreatorsView;
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		track = new Track(hBoxTrack);
+		// ADDING TEST USER
+		MusicApp.getInstance().testAddUser();
 		
-		
-		
+		track = MusicApp.getInstance().getCurrentTrack();
+		track.initializeTrack(hBoxTrack);
+				
 		int whiteCount = 0;
 		int blackCount = 1;
 		
@@ -121,6 +129,8 @@ public class MainController implements Initializable {
 	            choicePosition = (int) new_val;
 			});
 		
+		// Setting up creators view aka. who's currently working on the track
+		creatorsView = new CreatorsView(vboxCreatorsView);
 	}
 	
 	// Method that runs when Insert Column is clicked
@@ -136,7 +146,7 @@ public class MainController implements Initializable {
 	
 	// Method that runs when play button is clicked
 	public void btnPlaySong() {
-		musicApp.getAudioPlayer().playSong(track);
+		MusicApp.getAudioPlayer().playSong(track);
 	}
 	
 	// Method that runs when Insert button is clicked
@@ -146,11 +156,7 @@ public class MainController implements Initializable {
 			lblErrorMsg.setText("Please enter key on the piano");
 		} else {
 			lblErrorMsg.setText("");
-			//track.getTimeBlock(choicePosition).addSoundBlock(0, musicApp.translatePlayingType(playingType), pressedKey);
-			track.getTimeBlock(choicePosition).addSoundBlock(0, playingType, pressedKey ,Math.abs(pressedKeyID));
-			
-			//client.putInTrackSpace(pressedKey,choicePosition);
-			
+			track.getTimeBlock(choicePosition).addSoundBlock(playingType, pressedKey ,Math.abs(pressedKeyID));
 		}
 		
 //		} catch (InterruptedException e) {
@@ -224,7 +230,7 @@ public class MainController implements Initializable {
 					lblPressedKey.setText("Insert key/chord: " + pressedKey);
 					
 					System.out.println(musicApp.translateIdToKey(Math.abs(id), playingType));
-					musicApp.getAudioPlayer().playKey(Math.abs(id), playingType);
+					MusicApp.getAudioPlayer().playKey(Math.abs(id), playingType);
 				}
 			});
 			
