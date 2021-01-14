@@ -128,8 +128,12 @@ public class MainController implements Initializable {
 	            choicePosition = (int) new_val;
 			});
 		
+		
 		// Setting up creators view aka. who's currently working on the track
-		creatorsView = new CreatorsView(vboxCreatorsView);
+		creatorsView = MusicApp.getInstance().getCreatorsView();
+		creatorsView.setView(vboxCreatorsView);
+
+		//MusicApp.getInstance().refreshView();
 	}
 	
 	// Method that runs when Insert Column is clicked
@@ -146,6 +150,7 @@ public class MainController implements Initializable {
 	// Method that runs when refresh is clicked
 	public void onActionRefresh() {
 		System.out.println("refreeeesh");
+		MusicApp.getInstance().refreshView();
 	}
 	
 	// Method that runs when play button is clicked
@@ -161,8 +166,8 @@ public class MainController implements Initializable {
 			lblErrorMsg.setText("");
 			track.getTimeBlock(choicePosition).addSoundBlock(playingType, pressedKey ,Math.abs(pressedKeyID));
 			//System.out.println("choicePosition:" + choicePosition + "     playingType:" + playingType + "      pressedKey:" + pressedKey + "     pressedKeyID" + pressedKeyID);
-			musicApp.getClient().sendToServer(pressedKeyID,playingType,choicePosition,0);
-			musicApp.getClient().getFromServer();
+			//musicApp.getClient().sendToServer(pressedKeyID,playingType,choicePosition,0);
+			//musicApp.getClient().getFromServer();
 			//updateSounds(pressedKeyID,playingType,choicePosition);
 			
 		}

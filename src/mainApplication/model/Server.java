@@ -1,10 +1,6 @@
 package mainApplication.model;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.List;
 
 import org.jspace.ActualField;
 import org.jspace.FormalField;
@@ -12,8 +8,6 @@ import org.jspace.PileSpace;
 import org.jspace.SequentialSpace;
 import org.jspace.Space;
 import org.jspace.SpaceRepository;
-
-import mainApplication.MusicApp;
 
 public class Server {
 
@@ -48,10 +42,10 @@ public class Server {
 					System.out.println("About to get request");
 					Object[] request = login.get(new ActualField("enter"), new FormalField(String.class), new FormalField(Integer.class));
 					
-					String who = (String) request[1];
+					String userID = (String) request[1];
 					Integer trackID = (Integer) request[2];
 					
-					System.out.println(who + " requesting to enter track with id " + trackID + "...");	
+					System.out.println(userID + " requesting to enter track with id " + trackID + "...");	
 				
 					Object[] the_track = tracks.queryp(new ActualField(trackID),new FormalField(Integer.class));
 					//If track exists, join it
@@ -60,7 +54,7 @@ public class Server {
 						trackURI = "tcp://127.0.0.1:9001/track" + the_track[1] + "?keep";
 					//If track doesn't exist, create one
 					} else {
-						System.out.println("Creating room " + trackID + " for " + who + " ...");	
+						System.out.println("Creating room " + trackID + " for " + userID + " ...");	
 						trackURI = "tcp://127.0.0.1:9001/track" + trackC + "?keep";
 						System.out.println("Setting up chat space " + trackURI + "...");
 						new Thread(new roomHandler(trackID,"track"+trackC,trackURI,repository)).start();
@@ -69,8 +63,8 @@ public class Server {
 					}
 					
 					
-					System.out.println("Telling " + who + " to go for room " + trackID + " at " + trackURI + "...");
-					login.put("trackURI", who, trackID, trackURI);
+					System.out.println("Telling " + userID + " to go for room " + trackID + " at " + trackURI + "...");
+					login.put("trackURI", userID, trackID, trackURI);
 					
 				}
 				
@@ -110,12 +104,15 @@ class roomHandler implements Runnable {
 	@Override
 	public void run() {
 		try {
-
+			Object[] users = track.query(new ActualField("userID"), new FormalField(String.class));
+			System.out.println("User: " + users[1]);
+			
 			// Keep reading chat messages and printing them 
 			while (true) {
-				Object[] message = track.get(new FormalField(Integer.class), new FormalField(Integer.class), new FormalField(Integer.class),new FormalField(Integer.class) );
+				
+				/*Object[] message = track.get(new FormalField(Integer.class), new FormalField(Integer.class), new FormalField(Integer.class),new FormalField(Integer.class) );
 				System.out.println("Key " + message[0] + " | PlayingType " + message[1] + " | BlockID " + message[2] + " | UserID " + message[3] );
-				track.put("update view");
+				track.put("update view");*/
 				
 			}
 		} catch (InterruptedException e) {

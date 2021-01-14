@@ -1,30 +1,26 @@
 package mainApplication.model;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jspace.ActualField;
 import org.jspace.FormalField;
 import org.jspace.RemoteSpace;
 
 public class Client implements Runnable {
-	private String name;
+	private String userID;
 	private int trackId;
-	private String trackName;
 	RemoteSpace trackRoom_space;
 	
-	public Client(String name, int trackId, String trackName) {
-		this.name = name;
+	public Client(String userID, int trackId) {
+		this.userID = userID;
 		this.trackId = trackId;
-		this.trackName = trackName;
 	}
 
 	public void run() {
 		try { 
-		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-
 		// Set the URI of the chat space
 		// Default value
 		String uri = "tcp://127.0.0.1:9001/login?keep";
@@ -33,25 +29,24 @@ public class Client implements Runnable {
 		System.out.println("Connecting to login space " + uri + "...");
 		RemoteSpace login = new RemoteSpace(uri);
 
-		// Read user name from the console			
-		System.out.print("Enter your name: ");
-		System.out.print(name);
+		// Read user name from the console		
+		System.out.println("Current userID: " + userID);
 
-		System.out.print("Select a track room: ");
-		System.out.println(trackName + " has id: " + trackId);
+		System.out.println("Track room: " + trackId);
 		Integer trackRoom = trackId;
 		
 		// Send request to enter chatroom
-		login.put("enter",name,trackRoom);
-		System.out.println(name + " requested the track " + trackRoom);
+		login.put("enter",userID,trackRoom);
+		System.out.println(userID + " requested the track " + trackRoom);
 		
-		Object[] response = login.get(new ActualField("trackURI"), new ActualField(name), new ActualField(trackRoom), new FormalField(String.class));
+		Object[] response = login.get(new ActualField("trackURI"), new ActualField(userID), new ActualField(trackRoom), new FormalField(String.class));
 		String trackRoom_uri = (String) response[3];
 	    System.out.println("Connecting to track space " + trackRoom_uri);
+	    
 		trackRoom_space = new RemoteSpace(trackRoom_uri);
+		trackRoom_space.put("userID", userID);
 		
-		
-		System.out.println("Start chatting...");
+		System.out.println("Start playing...");
 		
 		
 		
@@ -72,10 +67,21 @@ public class Client implements Runnable {
 		try {
 			trackRoom_space.put(keyID,playingType,blockID,userID);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public ArrayList<String> getTrackUsers() throws InterruptedException {
+		List<Object[]> users = trackRoom_space.queryAll(new ActualField("userID"), new FormalField(String.class));
+		ArrayList<String> userIDs = new ArrayList<String>();
+		
+		System.out.println("All users in track");
+		for(Object[] u : users) {
+			System.out.println(u[1]);
+			userIDs.add((String) u[1]);
+		}
+		return userIDs;
 	}
 	
 	public void getFromServer() {

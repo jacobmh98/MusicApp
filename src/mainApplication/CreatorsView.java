@@ -13,25 +13,30 @@ import javafx.scene.shape.StrokeType;
 public class CreatorsView {
 	private VBox creatorsView;
 	
-	public CreatorsView(VBox creatorsView) {
-		this.creatorsView = creatorsView;
-		
-		ArrayList<User> users = MusicApp.getInstance().getCurrentTrack().getTrackUsers();
-		
-		Label title = new Label("Track: " + MusicApp.getInstance().getCurrentTrack().getTrackName());
-		title.setStyle("-fx-font: 15 Calibri; -fx-padding: 0 0 10 0;");
-			
-		creatorsView.getChildren().add(title);
-		
-		for(User u : users) {
-			CreatorsViewUser creatorsViewUser = new CreatorsViewUser(u);
-			HBox creatorsViewUserVisual = creatorsViewUser.getCreatorsViewUserVisual();
-			
-			creatorsView.getChildren().add(creatorsViewUserVisual);
-		}
-		
+	public CreatorsView() {
 	}
 	
+	public void setView(VBox creatorsView) {
+		this.creatorsView = creatorsView;
+	}
+	
+	public void updateView() {
+		this.creatorsView.getChildren().clear();
+		
+		Label title = new Label("Track: " + "");
+		title.setStyle("-fx-font: 15 Calibri; -fx-padding: 0 0 10 0;");
+		
+		ArrayList<User> users = MusicApp.getInstance().getTrackUsers();
+			for(User u : users) {
+				CreatorsViewUser creatorsViewUser = new CreatorsViewUser(u);
+				HBox creatorsViewUserVisual = creatorsViewUser.getCreatorsViewUserVisual();
+				
+				creatorsView.getChildren().add(creatorsViewUserVisual);
+			}
+		
+		creatorsView.getChildren().add(title);
+	}
+
 	private class CreatorsViewUser extends HBox {
 		private HBox creatorsViewUser = new HBox();
 		private User user;
@@ -43,12 +48,14 @@ public class CreatorsView {
 			
 			Circle c = new Circle();
 			int colorIndex = MusicApp.getInstance().getCurrentTrack().getTrackUsers().indexOf(user);
-			c.setFill(Color.web(MusicApp.getInstance().getUserColors()[colorIndex]));
-			c.setStroke(Color.web(MusicApp.getInstance().getUserColors()[colorIndex]));
+			//c.setFill(Color.web(MusicApp.getInstance().getUserColors()[colorIndex]));
+			c.setFill(Color.BLUE);
+			//c.setStroke(Color.web(MusicApp.getInstance().getUserColors()[colorIndex]));
+			c.setStroke(Color.BLUE);
 			c.setStrokeType(StrokeType.INSIDE);
 			c.setRadius(8);
 			
-			Label l = new Label(user.getName());
+			Label l = new Label(user.getUserID());
 			l.setStyle("-fx-padding: 0 0 0 10;");
 			
 			creatorsViewUser.getChildren().addAll(c,l);

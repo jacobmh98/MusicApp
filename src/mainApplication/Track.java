@@ -17,10 +17,8 @@ public class Track {
 	private int timeBlockCount = 0;
 	private ArrayList<User> trackUsers = new ArrayList<User>();
 	private int trackID;
-	private String trackName;
 	
-	public Track(String trackName, int trackID) {
-		this.trackName = trackName;
+	public Track(int trackID) {
 		this.trackID = trackID;
 	}
 	
@@ -41,11 +39,6 @@ public class Track {
 	// Getter method for trackUsers
 	public ArrayList<User> getTrackUsers() {
 		return trackUsers;
-	}
-	
-	// Getter method for track name
-	public String getTrackName() {
-		return this.trackName;
 	}
 	
 	// Add user to track

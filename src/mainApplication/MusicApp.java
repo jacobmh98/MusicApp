@@ -9,14 +9,15 @@ public class MusicApp {
 	private static String[] USER_COLORS = {"#34a8eb", "#eb5934", "#3be835", "#fcfc03", "#c603fc"};
 	private static MusicApp instance;
 	private static AudioPlayer audioPlayer;
-	private Track currentTrack;
 	private ArrayList<Track> allTracks = new ArrayList<Track>();
+	private ArrayList<User> trackUsers = new ArrayList<User>();
+	
+	// Instances of different classes
+	private Track currentTrack;
 	private User currentUser;
+	private CreatorsView creatorsView;
 	
 	private Client client;
-	
-	private ArrayList<Integer> userIDList = new ArrayList<Integer>();
-	private String trackID;
 	
 	private MusicApp() {
 		audioPlayer= new AudioPlayer();
@@ -33,6 +34,11 @@ public class MusicApp {
 			instance = new MusicApp();
 		}
 		return instance;
+	}
+	
+	// Methos for CreatorsView
+	public CreatorsView getCreatorsView() {
+		return this.creatorsView;
 	}
 	
 	
@@ -52,35 +58,11 @@ public class MusicApp {
 	public boolean getLoginStatus() {
 		return loginStatus;
 	}
-
-	// Method to login to either existing track of creating new track
-	public void login(String userName, int trackID, String trackName) {
-		
-		client = new Client(userName,trackID,trackName);
-		new Thread(client).start();
-		this.loginStatus = true;
-		
-		currentUser = new User(userName);
-		
-		if(!(trackName.isEmpty())) {
-			createNewTrack(userName, trackID, trackName);
-		} else {
-			enterExistingTrack();
-		}
-		
-
-		currentTrack.addUserToTrack(currentUser);
-	}
 	
 	// Method to create a new track
-	public void createNewTrack(String name, int trackID, String trackName) {
-		currentTrack = new Track(trackName, trackID);
+	public void enterTrack(int trackID) {
+		currentTrack = new Track(trackID);
 		allTracks.add(currentTrack);
-	}
-	
-	// Method to enter existing track
-	public void enterExistingTrack() {
-		
 	}
 	
 	// Method to translate from node key to string node fx: -40 --> C#4_major
@@ -104,5 +86,42 @@ public class MusicApp {
 		return client;
 	}
 	
+	/***********************************************/
+	// SERVER STUFF UPDATES
+	
+	// Method to login to either existing track of creating new track
+	public void login(String userID, int trackID) {
+		client = new Client(userID,trackID);
+		new Thread(client).start();
+		
+		this.loginStatus = true;
+		currentUser = new User(userID);
+		enterTrack(trackID);
+		
+
+		currentTrack.addUserToTrack(currentUser);
+		
+		creatorsView = new CreatorsView();
+	}
+	
+	public void refreshView() {
+		try {
+			ArrayList<String> userIDs = client.getTrackUsers();
+			for(String userID : userIDs) {
+				trackUsers.add(new User(userID));
+			}
+			creatorsView.updateView();
 			
+			System.out.println(trackUsers);
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public ArrayList<User> getTrackUsers() {
+		return this.trackUsers;
+	}
+	
 }
