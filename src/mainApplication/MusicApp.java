@@ -1,6 +1,7 @@
 package mainApplication;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import mainApplication.model.Client;
 
@@ -23,7 +24,7 @@ public class MusicApp {
 		audioPlayer= new AudioPlayer();
 	}
 	
-	// Gettet method for USER_COLORS
+	// GetteR method for USER_COLORS
 	public String[] getUserColors() {
 		return USER_COLORS;
 	}
@@ -35,13 +36,7 @@ public class MusicApp {
 		}
 		return instance;
 	}
-	
-	// Methos for CreatorsView
-	public CreatorsView getCreatorsView() {
-		return this.creatorsView;
-	}
-	
-	
+
 	// Getter method for audio player
 	public static AudioPlayer getAudioPlayer() {
 		return audioPlayer;
@@ -51,14 +46,6 @@ public class MusicApp {
 	public Track getCurrentTrack() {
 		return this.currentTrack;
 	}
-	
-	// Login coordination
-	private boolean loginStatus = false;
-	
-	public boolean getLoginStatus() {
-		return loginStatus;
-	}
-	
 	// Method to create a new track
 	public void enterTrack(int trackID) {
 		currentTrack = new Track(trackID);
@@ -87,24 +74,42 @@ public class MusicApp {
 	}
 	
 	/***********************************************/
+	// Getter method for CreaterView
+	public CreatorsView getCreatorsView() {
+		return this.creatorsView;
+	}
+	
+	/***********************************************/
 	// SERVER STUFF UPDATES
 	
 	// Method to login to either existing track of creating new track
 	public void login(String userID, int trackID) {
 		client = new Client(userID,trackID);
-		new Thread(client).start();
+		Thread t = new Thread(client);
+		t.start();
 		
-		this.loginStatus = true;
-		currentUser = new User(userID);
-		enterTrack(trackID);
+		try {
+			t.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
-		currentTrack.addUserToTrack(currentUser);
-		
-		creatorsView = new CreatorsView();
+		if(client.getClientReady()) {
+			getUsersFromServer();
+			
+			currentUser = new User(userID);
+			enterTrack(trackID);
+			
+			currentUser = trackUsers.get(0);
+			
+			currentTrack.addUserToTrack(currentUser);
+			
+			creatorsView = new CreatorsView();
+		}
 	}
 	
-	// Method to initialize the track with data from the server
-	public void getDataFromServer() {
+	// Method to retrieve data from the server
+	public void getUsersFromServer() {
 		try {
 			ArrayList<String> userIDs = client.getTrackUsers();
 			
@@ -121,23 +126,17 @@ public class MusicApp {
 				if(!contains) {
 					trackUsers.add(new User(userID));
 				}
+				
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void refreshView() {
-		getDataFromServer();
+	public void updateViews() {
+		getUsersFromServer();
 		
 		creatorsView.updateView();
-		
-		System.out.println("----------------------------------------");
-		for(User u : trackUsers) {
-			System.out.println(u.getUserID());
-		}
-		
-		
 	}
 
 	public ArrayList<User> getTrackUsers() {

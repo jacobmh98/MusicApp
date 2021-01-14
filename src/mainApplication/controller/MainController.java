@@ -133,7 +133,7 @@ public class MainController implements Initializable {
 		creatorsView = MusicApp.getInstance().getCreatorsView();
 		creatorsView.setView(vboxCreatorsView);
 
-		//MusicApp.getInstance().refreshView();
+		MusicApp.getInstance().updateViews();
 	}
 	
 	// Method that runs when Insert Column is clicked
@@ -149,8 +149,7 @@ public class MainController implements Initializable {
 	
 	// Method that runs when refresh is clicked
 	public void onActionRefresh() {
-		System.out.println("refreeeesh");
-		MusicApp.getInstance().refreshView();
+		MusicApp.getInstance().updateViews();
 	}
 	
 	// Method that runs when play button is clicked

@@ -80,8 +80,6 @@ public class Server {
 
 }
 
-
-
 class roomHandler implements Runnable {
 
 	private Space track;
@@ -105,7 +103,6 @@ class roomHandler implements Runnable {
 	public void run() {
 		try {
 			Object[] users = track.query(new ActualField("userID"), new FormalField(String.class));
-			System.out.println("User: " + users[1]);
 			
 			// Keep reading chat messages and printing them 
 			while (true) {

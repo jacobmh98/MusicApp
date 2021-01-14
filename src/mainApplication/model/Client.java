@@ -13,10 +13,15 @@ public class Client implements Runnable {
 	private String userID;
 	private int trackId;
 	RemoteSpace trackRoom_space;
+	private boolean clientReady = false;
 	
 	public Client(String userID, int trackId) {
 		this.userID = userID;
 		this.trackId = trackId;
+	}
+	
+	public boolean getClientReady() {
+		return  this.clientReady;
 	}
 
 	public void run() {
@@ -35,7 +40,7 @@ public class Client implements Runnable {
 		System.out.println("Track room: " + trackId);
 		Integer trackRoom = trackId;
 		
-		// Send request to enter chatroom
+		// Send request to enter trackRoom
 		login.put("enter",userID,trackRoom);
 		System.out.println(userID + " requested the track " + trackRoom);
 		
@@ -47,9 +52,7 @@ public class Client implements Runnable {
 		trackRoom_space.put("userID", userID);
 		
 		System.out.println("Start playing...");
-		
-		
-		
+		clientReady = true;
 	} catch (UnknownHostException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -70,6 +73,15 @@ public class Client implements Runnable {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public ArrayList<Object[]> getTrackKeys() throws InterruptedException {
+		List<Object[]> keys = trackRoom_space.queryAll(new FormalField(Integer.class), new FormalField(Integer.class), new FormalField(Integer.class), new FormalField(Integer.class));
+		
+		for(Object[] k : keys) {
+			System.out.println(k[1]);
+		}
+		return null;
 	}
 	
 	public ArrayList<String> getTrackUsers() throws InterruptedException {
