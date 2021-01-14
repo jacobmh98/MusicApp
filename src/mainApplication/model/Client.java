@@ -52,7 +52,8 @@ public class Client implements Runnable {
 		
 		
 		System.out.println("Start chatting...");
-
+		
+		
 		
 	} catch (UnknownHostException e) {
 		// TODO Auto-generated catch block
@@ -70,6 +71,22 @@ public class Client implements Runnable {
 	public void sendToServer(int keyID, int playingType, int blockID, int userID) {
 		try {
 			trackRoom_space.put(keyID,playingType,blockID,userID);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void getFromServer() {
+		try {
+			
+			Object[] update;
+			update = trackRoom_space.query(new ActualField("update view"));
+			System.out.println(update[0]);
+			
+			
+			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -18,7 +18,6 @@ public class Runner extends Application {
 		
 		if(!instance.getLoginStatus()) {
 			try {
-				new Thread(new Server(instance)).start();
 				
 				Stage primaryStage = new Stage();
 				primaryStage.setTitle("Login");

@@ -8,21 +8,18 @@ import java.net.URISyntaxException;
 
 import org.jspace.ActualField;
 import org.jspace.FormalField;
+import org.jspace.PileSpace;
 import org.jspace.SequentialSpace;
 import org.jspace.Space;
 import org.jspace.SpaceRepository;
 
 import mainApplication.MusicApp;
 
-public class Server implements Runnable {
-	private MusicApp instance;
+public class Server {
+
 	
-	public Server(MusicApp instance) {
-		this.instance = instance;
-	}
-	
-	public void run() {
-		
+	public static void main(String[] args) {
+
 		try {
 			
 			//BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
@@ -117,7 +114,7 @@ class roomHandler implements Runnable {
 		this.spaceID = spaceID;
 		
 		// Create a local space for the chatroom
-		track = new SequentialSpace();
+		track = new PileSpace();
 
 		// Add the space to the repository
 		repository.add(this.spaceID, track);
@@ -132,6 +129,8 @@ class roomHandler implements Runnable {
 			while (true) {
 				Object[] message = track.get(new FormalField(Integer.class), new FormalField(Integer.class), new FormalField(Integer.class),new FormalField(Integer.class) );
 				System.out.println("Key " + message[0] + " | PlayingType " + message[1] + " | BlockID " + message[2] + " | UserID " + message[3] );
+				track.put("update view");
+				
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

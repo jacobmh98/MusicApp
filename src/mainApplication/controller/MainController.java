@@ -30,6 +30,7 @@ import mainApplication.CreatorsView;
 import mainApplication.MusicApp;
 import mainApplication.Track;
 import mainApplication.Track.TimeBlock;
+import mainApplication.User;
 
 public class MainController implements Initializable {
 	private MusicApp musicApp = MusicApp.getInstance();
@@ -83,11 +84,14 @@ public class MainController implements Initializable {
 	@FXML
 	private VBox vboxCreatorsView;
 	
+	private Button refresh;
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		track = MusicApp.getInstance().getCurrentTrack();
 		track.initializeTrack(hBoxTrack);
-				
+		
+		
 		int whiteCount = 0;
 		int blackCount = 1;
 		
@@ -148,7 +152,6 @@ public class MainController implements Initializable {
 	
 	// Method that runs when Insert button is clicked
 	public void btnInsertSound() {
-		//try {
 		if(pressedKey == null) {
 			lblErrorMsg.setText("Please enter key on the piano");
 		} else {
@@ -156,13 +159,24 @@ public class MainController implements Initializable {
 			track.getTimeBlock(choicePosition).addSoundBlock(playingType, pressedKey ,Math.abs(pressedKeyID));
 			//System.out.println("choicePosition:" + choicePosition + "     playingType:" + playingType + "      pressedKey:" + pressedKey + "     pressedKeyID" + pressedKeyID);
 			musicApp.getClient().sendToServer(pressedKeyID,playingType,choicePosition,0);
+			musicApp.getClient().getFromServer();
+			//updateSounds(pressedKeyID,playingType,choicePosition);
+			
 		}
 		
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 	}
+	
+//	public void updateSounds(int pressedKeyID,int playingType, int choicePosition) {
+//		String key = musicApp.translateIdToKey(Math.abs(pressedKeyID), playingType);
+//		if(key == null) {
+//			lblErrorMsg.setText("Please enter key on the piano");
+//		} else {
+//			lblErrorMsg.setText("");
+//			track.getTimeBlock(choicePosition).addSoundBlock(playingType, key ,Math.abs(pressedKeyID));
+//			//System.out.println("choicePosition:" + choicePosition + "     playingType:" + playingType + "      pressedKey:" + pressedKey + "     pressedKeyID" + pressedKeyID);
+//		}
+//		
+//	}
 	
 	public void updatePositionChoice() {
 		choiceBoxPosition.getItems().clear();
