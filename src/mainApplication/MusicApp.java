@@ -1,7 +1,7 @@
 package mainApplication;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 import mainApplication.model.Client;
 
@@ -108,6 +108,21 @@ public class MusicApp {
 		}
 	}
 	
+	// Method to retrieve track data from the server
+	public void getKeysFromServer() {
+		client.sendToServer(1, -1, 0, 300);
+		try {
+			List<Object[]> keys = client.getTrackKeys();
+			
+			if(keys==null) {
+				
+			}
+			//System.out.println(keys.size());
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	// Method to retrieve data from the server
 	public void getUsersFromServer() {
 		try {
@@ -135,6 +150,7 @@ public class MusicApp {
 	
 	public void updateViews() {
 		getUsersFromServer();
+		getKeysFromServer();
 		
 		creatorsView.updateView();
 	}

@@ -75,13 +75,10 @@ public class Client implements Runnable {
 		
 	}
 	
-	public ArrayList<Object[]> getTrackKeys() throws InterruptedException {
+	public List<Object[]> getTrackKeys() throws InterruptedException {
 		List<Object[]> keys = trackRoom_space.queryAll(new FormalField(Integer.class), new FormalField(Integer.class), new FormalField(Integer.class), new FormalField(Integer.class));
 		
-		for(Object[] k : keys) {
-			System.out.println(k[1]);
-		}
-		return null;
+		return keys;
 	}
 	
 	public ArrayList<String> getTrackUsers() throws InterruptedException {
