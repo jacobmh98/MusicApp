@@ -84,8 +84,6 @@ public class MainController implements Initializable {
 	@FXML
 	private VBox vboxCreatorsView;
 	
-	private Button refresh;
-	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		track = MusicApp.getInstance().getCurrentTrack();
@@ -143,6 +141,11 @@ public class MainController implements Initializable {
 	public void btnDeleteColumn() {
 		track.deleteTimeBlock();
 		updatePositionChoice();
+	}
+	
+	// Method that runs when refresh is clicked
+	public void onActionRefresh() {
+		System.out.println("refreeeesh");
 	}
 	
 	// Method that runs when play button is clicked

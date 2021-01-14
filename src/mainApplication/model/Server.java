@@ -22,8 +22,6 @@ public class Server {
 
 		try {
 			
-			//BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-			//System.out.println(trackID);
 			// Create a repository 
 			SpaceRepository repository = new SpaceRepository();
 
@@ -31,25 +29,13 @@ public class Server {
 			//"Lobby" is our login
 			Space login = new SequentialSpace();
 			Space tracks = new SequentialSpace();
-//			
-//			chords.put("A");
-//			chords.put("B");
-//			chords.put("C");
-//			chords.put("D");
-//			chords.put("E");
-//			chords.put("F");
-//			chords.put("G");
 
 			// Add the space to the repository
 			repository.add("login",login);
 			repository.add("tracks",tracks);
-			
-			//repository.add("chords",chords);
-			
+					
 			// Set the URI of the chat space
-			//System.out.print("Enter URI of the chat server or press enter for default: ");
 			String uri = "tcp://127.0.0.1:9001/login?keep";
-			
 			
 			repository.addGate(uri);
 			System.out.println("Opening repository gate at " + uri + "...");
