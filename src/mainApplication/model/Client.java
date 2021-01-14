@@ -73,15 +73,23 @@ public class Client implements Runnable {
 	}
 	
 	public ArrayList<String> getTrackUsers() throws InterruptedException {
-		List<Object[]> users = trackRoom_space.queryAll(new ActualField("userID"), new FormalField(String.class));
-		ArrayList<String> userIDs = new ArrayList<String>();
+		Object[] testUser = trackRoom_space.queryp(new ActualField("userID"), new FormalField(String.class));
 		
-		System.out.println("All users in track");
-		for(Object[] u : users) {
-			System.out.println(u[1]);
-			userIDs.add((String) u[1]);
+		if(testUser != null) {
+			List<Object[]> users = trackRoom_space.queryAll(new ActualField("userID"), new FormalField(String.class));
+			ArrayList<String> userIDs = new ArrayList<String>();
+			
+			System.out.println("All users in track");
+			for(Object[] u : users) {
+				System.out.println(u[1]);
+				userIDs.add((String) u[1]);
+			}
+			return userIDs;
 		}
-		return userIDs;
+		
+		return new ArrayList<String>();
+		
+		
 	}
 	
 	public void getFromServer() {

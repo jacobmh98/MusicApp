@@ -22,7 +22,7 @@ public class Server {
 			//SequentialSpace chords = new SequentialSpace();
 			//"Lobby" is our login
 			Space login = new SequentialSpace();
-			Space tracks = new SequentialSpace();
+			Space tracks = new PileSpace();
 
 			// Add the space to the repository
 			repository.add("login",login);

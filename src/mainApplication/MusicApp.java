@@ -98,26 +98,46 @@ public class MusicApp {
 		currentUser = new User(userID);
 		enterTrack(trackID);
 		
-
 		currentTrack.addUserToTrack(currentUser);
 		
 		creatorsView = new CreatorsView();
 	}
 	
-	public void refreshView() {
+	// Method to initialize the track with data from the server
+	public void getDataFromServer() {
 		try {
 			ArrayList<String> userIDs = client.getTrackUsers();
+			
 			for(String userID : userIDs) {
-				trackUsers.add(new User(userID));
+				boolean contains = false;
+				
+				for(int i = 0; i < trackUsers.size(); i++) {
+					if(userID.equals(trackUsers.get(i).getUserID())) {
+						contains = true;
+						break;
+					}
+				}
+				
+				if(!contains) {
+					trackUsers.add(new User(userID));
+				}
 			}
-			creatorsView.updateView();
-			
-			System.out.println(trackUsers);
-			
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void refreshView() {
+		getDataFromServer();
+		
+		creatorsView.updateView();
+		
+		System.out.println("----------------------------------------");
+		for(User u : trackUsers) {
+			System.out.println(u.getUserID());
+		}
+		
+		
 	}
 
 	public ArrayList<User> getTrackUsers() {
