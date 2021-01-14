@@ -30,18 +30,24 @@ public class CreatorsView {
 		creatorsView.getChildren().add(title);
 		
 		ArrayList<User> users = MusicApp.getInstance().getTrackUsers();
-		ArrayList<User> usersSorted = MusicApp.getInstance().getTrackUsers();
-		ArrayList<Integer> usersIDs = new ArrayList<Integer>();
-		for(User u : users) {
-			usersIDs.add(u.getUserNumberId());
+		int count = 0;
+		
+		User temp;
+		for(int i = 0; i < users.size(); i++) {
+			for(int j = i+1; j < users.size();j++) {
+				if(users.get(i).getUserNumberId() < users.get(j).getUserNumberId()) {
+					temp = users.get(i);
+					users.set(i, users.get(j));
+					users.set(j, temp);
+					
+				}
+			}
 		}
-		
-		Collections.sort(usersIDs);
-		
-		for(Integer userID : usersIDs) {
-			CreatorsViewUser creatorsViewUser = new CreatorsViewUser(userID);
+
+		for(User u : users) {
+			CreatorsViewUser creatorsViewUser = new CreatorsViewUser(u,count);
 			HBox creatorsViewUserVisual = creatorsViewUser.getCreatorsViewUserVisual();
-			
+			count++;
 			creatorsView.getChildren().add(creatorsViewUserVisual);
 		}
 			
@@ -52,23 +58,22 @@ public class CreatorsView {
 
 	private class CreatorsViewUser extends HBox {
 		private HBox creatorsViewUser = new HBox();
-		private int user;
+		private User user;
+		private int count;
 		
-		public CreatorsViewUser(int user) {
+		public CreatorsViewUser(User user, int count) {
 			this.user = user;
+			this.count = count;
 			creatorsViewUser.setPrefHeight(21);
 			creatorsViewUser.setPrefWidth(177);
 			
 			Circle c = new Circle();
-			//int colorIndex = MusicApp.getInstance().getTrackUsers().indexOf(user);
-			//c.setFill(Color.web(MusicApp.getInstance().getUserColors()[colorIndex]));
-			//c.setStroke(Color.web(MusicApp.getInstance().getUserColors()[colorIndex]));
-			c.setFill(Color.BLUE);
-			c.setStroke(Color.BLUE);
+			c.setFill(Color.web(MusicApp.getInstance().getUserColors()[count]));
+			c.setStroke(Color.web(MusicApp.getInstance().getUserColors()[count]));
 			c.setStrokeType(StrokeType.INSIDE);
 			c.setRadius(8);
 			
-			Label l = new Label(user+""/*.getUserID()*/);
+			Label l = new Label(user.getUserID());
 			l.setStyle("-fx-padding: 0 0 0 10;");
 			
 			creatorsViewUser.getChildren().addAll(c,l);
