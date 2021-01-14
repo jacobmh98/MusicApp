@@ -100,20 +100,6 @@ public class MusicApp {
 		return this.currentUser;
 	}
 	
-	/***********************************************************************/
-	// TESTING WITH ANOTHER USER
-	public void testAddUser() {
-		currentTrack.addUserToTrack(new User("Max"));
-	}
-	
-	public void testSwitchUser(String name) {
-		for(User u : currentTrack.getTrackUsers()) {
-			if(u.getName().equals(name)) {
-				this.currentUser = u;
-			}
-		}
-	}
-	
 	public Client getClient() {
 		return client;
 	}

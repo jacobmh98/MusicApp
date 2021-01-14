@@ -1,11 +1,15 @@
 package mainApplication;
 
+import java.util.Random;
+
 public class User {
 	private String name;
 	private int color;
+	private int userID;
 	
 	public User(String name) {
 		this.name = name;
+		this.userID = new Random().nextInt();
 	}
 	
 	// Getter method for name

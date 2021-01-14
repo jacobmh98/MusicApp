@@ -30,15 +30,6 @@ public class CreatorsView {
 			creatorsView.getChildren().add(creatorsViewUserVisual);
 		}
 		
-		// TEMPORARY BUTTON FOR TESTING
-		Button b = new Button("SWITCH USER");
-		
-		b.setOnAction( e -> {
-			System.out.println("test");// TESTING WITH ANOTHER USER
-			
-			MusicApp.getInstance().testSwitchUser("Max");
-		});
-		creatorsView.getChildren().add(b);
 	}
 	
 	private class CreatorsViewUser extends HBox {

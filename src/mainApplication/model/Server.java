@@ -50,7 +50,7 @@ public class Server implements Runnable {
 			//repository.add("chords",chords);
 			
 			// Set the URI of the chat space
-			System.out.print("Enter URI of the chat server or press enter for default: ");
+			//System.out.print("Enter URI of the chat server or press enter for default: ");
 			String uri = "tcp://127.0.0.1:9001/login?keep";
 			
 			

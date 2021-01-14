@@ -20,7 +20,6 @@ public class Runner extends Application {
 			try {
 				new Thread(new Server(instance)).start();
 				
-				
 				Stage primaryStage = new Stage();
 				primaryStage.setTitle("Login");
 				FXMLLoader loader = new FXMLLoader();
