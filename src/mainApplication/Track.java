@@ -20,9 +20,9 @@ public class Track {
 	
 	// Method to initialize the empty track with a pane
 	public void initializeTrack() {
-		for(TimeBlock t : timeBlocks) {
-			t.clear();
-		}
+		timeBlocks = new ArrayList<TimeBlock>();
+		paneTrack.getChildren().clear();
+		timeBlockCount = 0;
 		
 		int nTimeBlocks = MusicApp.getInstance().initializeTrackFromServer();
 		List<Object[]> keys = MusicApp.getInstance().getKeysFromServer();
@@ -35,7 +35,7 @@ public class Track {
 			System.out.println(keys);
 			for(int i = 0; i < keys.size(); i++) {
 				Object[] key = keys.get(i);
-				String keyName = MusicApp.getInstance().translateIdToKey((int) key[0], (int) key[1]);
+				String keyName = MusicApp.getInstance().translateIdToKey(Math.abs((int) key[0]), (int) key[1]);
 				int colorIndex = MusicApp.getInstance().getSortedUserIdFromID((int) key[3]);
 				timeBlocks.get((int) key[2]).addSoundBlock((int) key[1], keyName, (int) key[0], colorIndex);
 				System.out.println("KeyID: " + keys.get(i)[0]);
@@ -117,12 +117,6 @@ public class Track {
 			this.timeBlock.getStyleClass().add("timeBlock");
 			
 			this.timeBlock.getChildren().add(timeStamp);
-		}
-		
-		// Clear TimeBlock
-		public void clear() {
-			soundBlocks = new ArrayList<SoundBlock>();
-			this.timeBlock.getChildren().clear();
 		}
 		
 		// Add SoundBlock
