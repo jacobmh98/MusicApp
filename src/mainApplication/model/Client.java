@@ -83,6 +83,18 @@ public class Client implements Runnable {
 		return keys;
 	}
 	
+	// Method to delete particular key from track
+	public boolean deleteKeyFromServer(int keyID, int playingType, int blockID, int userID) {
+		Object[] key;
+		try {
+			key = trackRoom_space.getp(new ActualField(keyID), new ActualField(playingType), new ActualField(blockID), new ActualField(userID));
+			return key != null;
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	// Method to set default info in track
 	public Integer initializeTrackFromServer() {
 		try {

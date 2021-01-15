@@ -167,13 +167,10 @@ public class MainController implements Initializable {
 			lblErrorMsg.setText("Please enter key on the piano");
 		} else {
 			lblErrorMsg.setText("");
-			int colorIndex = MusicApp.getInstance().getSortedUserIdFromID(MusicApp.getInstance().getCurrentUser().getUserNumberId());
-			track.getTimeBlock(blockID).addSoundBlock(playingType, pressedKey ,Math.abs(pressedKeyID), colorIndex);
-			
 			//System.out.println("blockID:" + blockID + "     playingType:" + playingType + "      pressedKey:" + pressedKey + "     pressedKeyID" + pressedKeyID);
 			musicApp.getClient().sendKeyToServer(pressedKeyID, playingType,blockID,MusicApp.getInstance().getCurrentUser().getUserNumberId());
 			musicApp.getKeysFromServer();
-			//updateSounds(pressedKeyID,playingType,blockID);
+			musicApp.updateViews();
 			
 		}
 		

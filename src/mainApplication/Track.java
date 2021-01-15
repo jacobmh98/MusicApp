@@ -37,7 +37,7 @@ public class Track {
 				Object[] key = keys.get(i);
 				String keyName = MusicApp.getInstance().translateIdToKey(Math.abs((int) key[0]), (int) key[1]);
 				int colorIndex = MusicApp.getInstance().getSortedUserIdFromID((int) key[3]);
-				timeBlocks.get((int) key[2]).addSoundBlock((int) key[1], keyName, (int) key[0], colorIndex);
+				timeBlocks.get((int) key[2]).addSoundBlock((int) key[1], keyName, (int) key[0], colorIndex, (int) key[3]);
 				System.out.println("KeyID: " + keys.get(i)[0]);
 			}
 		}
@@ -120,8 +120,8 @@ public class Track {
 		}
 		
 		// Add SoundBlock
-		public void addSoundBlock(int playingType, String key, int keyID, int colorIndex) {
-			SoundBlock soundBlock = new SoundBlock(playingType, key, keyID, blockID, colorIndex);
+		public void addSoundBlock(int playingType, String key, int keyID, int colorIndex, int userID) {
+			SoundBlock soundBlock = new SoundBlock(playingType, key, keyID, blockID, colorIndex, userID);
 			soundBlocks.add(soundBlock);
 			this.timeBlock.getChildren().add(soundBlock);
 		}
@@ -133,8 +133,16 @@ public class Track {
 		
 		// Method for deleting sound block
 		public void deleteSoundBlock(SoundBlock s) {
-			this.soundBlocks.remove(s);
-			this.timeBlock.getChildren().remove(s);
+			int keyID = s.getKeyID();
+			int playingType = s.getPlayingType();
+			int blockID = s.getBlockID();
+			int userID = s.getUserID();
+			
+			System.out.println(s.getKeyID()+", "+s.getPlayingType()+", "+s.getBlockID()+", "+s.getUserID());
+			MusicApp.getInstance().deleteKeyFromServer(keyID,playingType,blockID,userID);
+			// new Act
+//			this.soundBlocks.remove(s);
+//			this.timeBlock.getChildren().remove(s);
 		}
 		
 		// Getter methods for fields

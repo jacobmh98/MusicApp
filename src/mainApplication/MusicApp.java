@@ -202,5 +202,9 @@ public class MusicApp {
 		}
 		return -1;
 	}
+
+	public void deleteKeyFromServer(int keyID, int playingType, int blockID, int userID) {
+		client.deleteKeyFromServer(keyID, playingType, blockID, currentUser.getUserNumberId());
+	}
 	
 }

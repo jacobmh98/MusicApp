@@ -12,14 +12,16 @@ public class SoundBlock extends StackPane {
 		private int keyID;
 		private int colorIndex;
 		private int blockID;
+		private int userID;
 		String[] colors = MusicApp.getInstance().getUserColors();
 		
-		public SoundBlock(int playingType, String key, int keyID, int blockID, int colorIndex) {
+		public SoundBlock(int playingType, String key, int keyID, int blockID, int colorIndex, int userID) {
 			this.colorIndex = colorIndex;
 			this.playingType = playingType;
 			this.key = key;
 			this.keyID = keyID;
 			this.blockID = blockID;
+			this.userID = userID;
 			
 			Label labelKey = new Label(this.key);
 			if(this.playingType != 1) {
@@ -54,5 +56,11 @@ public class SoundBlock extends StackPane {
 		}
 		public int getKeyID() {
 			return this.keyID;
+		}
+		public int getUserID() {
+			return this.userID;
+		}
+		public int getBlockID() {
+			return this.blockID;
 		}
 	}
