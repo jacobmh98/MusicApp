@@ -45,7 +45,7 @@ public class AudioPlayer {
 		
 		for(TimeBlock t : track.getTimeBlocks()) {
 			for(SoundBlock s : t.getSoundBlocks()) {
-				playKey(s.getKeyID(), s.getPlayingType());
+				playKey(Math.abs(s.getKeyID()), s.getPlayingType());
 			}
 			
 			timeBlockCounter++;
