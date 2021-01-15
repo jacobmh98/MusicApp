@@ -185,6 +185,7 @@ public class MusicApp {
 		
 		creatorsView.updateView();
 		sortUsers();
+		currentTrack.initializeTrack();
 		// views....
 	}
 
