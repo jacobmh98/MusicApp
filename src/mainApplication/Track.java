@@ -13,18 +13,17 @@ public class Track {
 	private int timeBlockCount = 0;
 	private ArrayList<User> trackUsers = new ArrayList<User>();
 	private int trackID;
-	private int nTimeBlocks;
-	private List<Object[]> keys;
 	
-	public Track(int trackID, int nTimeBlocks, List<Object[]> keys) {
+	public Track(int trackID) {
 		this.trackID = trackID;
-		this.nTimeBlocks = nTimeBlocks;
-		this.keys = keys;
 	}
 	
-	// Method to intialize the empty track with a pane
-	public void initializeTrack(HBox paneTrack) {
-		this.paneTrack = paneTrack;
+	// Method to initialize the empty track with a pane
+	public void initializeTrack() {
+		paneTrack.getChildren().clear();
+		
+		int nTimeBlocks = MusicApp.getInstance().initializeTrackFromServer();
+		List<Object[]> keys = MusicApp.getInstance().getKeysFromServer();
 		
 		for(int i = 0; i < nTimeBlocks; i++) {
 			addTimeBlock();
@@ -33,13 +32,17 @@ public class Track {
 		if(keys != null) {
 			System.out.println(keys);
 			for(int i = 0; i < keys.size(); i++) {
-				//timeBlocks.get(0).addSoundBlock(0, "F", 11);
+				Object[] key = keys.get(i);
+				String keyName = MusicApp.getInstance().translateIdToKey((int) key[0], (int) key[1]);
+				int colorIndex = MusicApp.getInstance().getSortedUserIdFromID((int) key[3]);
+				timeBlocks.get((int) key[2]).addSoundBlock((int) key[1], keyName, (int) key[0], colorIndex);
 				System.out.println("KeyID: " + keys.get(i)[0]);
 			}
 		}
-
-		
-		
+	}
+	
+	public void setPane(HBox paneTrack) {
+		this.paneTrack = paneTrack;
 	}
 	
 	// Getter method for Track ID
@@ -115,8 +118,8 @@ public class Track {
 		}
 		
 		// Add SoundBlock
-		public void addSoundBlock(int playingType, String key, int keyID) {
-			SoundBlock soundBlock = new SoundBlock(playingType, key, keyID, blockID);
+		public void addSoundBlock(int playingType, String key, int keyID, int colorIndex) {
+			SoundBlock soundBlock = new SoundBlock(playingType, key, keyID, blockID, colorIndex);
 			soundBlocks.add(soundBlock);
 			this.timeBlock.getChildren().add(soundBlock);
 		}

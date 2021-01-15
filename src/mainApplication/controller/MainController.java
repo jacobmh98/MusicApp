@@ -52,7 +52,7 @@ public class MainController implements Initializable {
 	private String pressedKey = null;
 	private int pressedKeyID;
 	
-	private int choicePosition = 0;
+	private int blockID = 0;
 	
 	@FXML
 	private Pane panePiano; 
@@ -87,7 +87,11 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		track = MusicApp.getInstance().getCurrentTrack();
-		track.initializeTrack(hBoxTrack);
+		track.setPane(hBoxTrack);
+		
+		
+		track.initializeTrack();
+		
 		
 		
 		int whiteCount = 0;
@@ -125,7 +129,7 @@ public class MainController implements Initializable {
 		// Listening for changes in choiceBoxPosition
 		choiceBoxPosition.getSelectionModel().selectedIndexProperty().addListener(
 			(ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
-	            choicePosition = (int) new_val;
+	            blockID = (int) new_val;
 			});
 		
 		
@@ -149,7 +153,7 @@ public class MainController implements Initializable {
 	
 	// Method that runs when refresh is clicked
 	public void onActionRefresh() {
-		//MusicApp.getInstance().updateViews();
+		MusicApp.getInstance().updateViews();
 	}
 	
 	// Method that runs when play button is clicked
@@ -163,24 +167,26 @@ public class MainController implements Initializable {
 			lblErrorMsg.setText("Please enter key on the piano");
 		} else {
 			lblErrorMsg.setText("");
-			track.getTimeBlock(choicePosition).addSoundBlock(playingType, pressedKey ,Math.abs(pressedKeyID));
-			//System.out.println("choicePosition:" + choicePosition + "     playingType:" + playingType + "      pressedKey:" + pressedKey + "     pressedKeyID" + pressedKeyID);
-			//musicApp.getClient().sendToServer(pressedKeyID,playingType,choicePosition,0);
-			//musicApp.getClient().getFromServer();
-			//updateSounds(pressedKeyID,playingType,choicePosition);
+			int colorIndex = MusicApp.getInstance().getSortedUserIdFromID(MusicApp.getInstance().getCurrentUser().getUserNumberId());
+			track.getTimeBlock(blockID).addSoundBlock(playingType, pressedKey ,Math.abs(pressedKeyID), colorIndex);
+			
+			//System.out.println("blockID:" + blockID + "     playingType:" + playingType + "      pressedKey:" + pressedKey + "     pressedKeyID" + pressedKeyID);
+			musicApp.getClient().sendKeyToServer(pressedKeyID, playingType,blockID,MusicApp.getInstance().getCurrentUser().getUserNumberId());
+			musicApp.getKeysFromServer();
+			//updateSounds(pressedKeyID,playingType,blockID);
 			
 		}
 		
 	}
 	
-//	public void updateSounds(int pressedKeyID,int playingType, int choicePosition) {
+//	public void updateSounds(int pressedKeyID,int playingType, int blockID) {
 //		String key = musicApp.translateIdToKey(Math.abs(pressedKeyID), playingType);
 //		if(key == null) {
 //			lblErrorMsg.setText("Please enter key on the piano");
 //		} else {
 //			lblErrorMsg.setText("");
-//			track.getTimeBlock(choicePosition).addSoundBlock(playingType, key ,Math.abs(pressedKeyID));
-//			//System.out.println("choicePosition:" + choicePosition + "     playingType:" + playingType + "      pressedKey:" + pressedKey + "     pressedKeyID" + pressedKeyID);
+//			track.getTimeBlock(blockID).addSoundBlock(playingType, key ,Math.abs(pressedKeyID));
+//			//System.out.println("blockID:" + blockID + "     playingType:" + playingType + "      pressedKey:" + pressedKey + "     pressedKeyID" + pressedKeyID);
 //		}
 //		
 //	}
@@ -188,7 +194,7 @@ public class MainController implements Initializable {
 	public void updatePositionChoice() {
 		choiceBoxPosition.getItems().clear();
 		choiceBoxPosition.setValue("0 ms");
-		choicePosition = 0;
+		blockID = 0;
 		for(TimeBlock t : track.getTimeBlocks()) {
 			choiceBoxPosition.getItems().add(t.getBlockID()*500 + " ms");
 		}

@@ -14,8 +14,8 @@ public class SoundBlock extends StackPane {
 		private int blockID;
 		String[] colors = MusicApp.getInstance().getUserColors();
 		
-		public SoundBlock(int playingType, String key, int keyID, int blockID) {
-			this.colorIndex = MusicApp.getInstance().getCurrentTrack().getTrackUsers().indexOf(MusicApp.getInstance().getCurrentUser());
+		public SoundBlock(int playingType, String key, int keyID, int blockID, int colorIndex) {
+			this.colorIndex = colorIndex;
 			this.playingType = playingType;
 			this.key = key;
 			this.keyID = keyID;

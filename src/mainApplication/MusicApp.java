@@ -1,6 +1,7 @@
 package mainApplication;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import mainApplication.model.Client;
@@ -11,6 +12,7 @@ public class MusicApp {
 	private static MusicApp instance;
 	private static AudioPlayer audioPlayer;
 	private ArrayList<User> trackUsers = new ArrayList<User>();
+	private ArrayList<User> sortedUsers = trackUsers;
 	
 	// Instances of different classes
 	private Track currentTrack;
@@ -24,7 +26,27 @@ public class MusicApp {
 		audioPlayer= new AudioPlayer();
 	}
 	
-	// GetteR method for USER_COLORS
+	// Method to sort user in hierchy 
+	public void sortUsers() {
+		int count = 0;
+				
+		User temp;
+		for(int i = 0; i < sortedUsers.size(); i++) {
+			for(int j = i+1; j < sortedUsers.size();j++) {
+				if(sortedUsers.get(i).getUserNumberId() < sortedUsers.get(j).getUserNumberId()) {
+					temp = sortedUsers.get(i);
+					sortedUsers.set(i, sortedUsers.get(j));
+					sortedUsers.set(j, temp);
+				}
+			}
+		}
+		
+		for(User u : sortedUsers) {
+			System.out.println(u.getUserNumberId() + " - " + u.getUserID());
+		}
+	}
+	
+	// Getter method for USER_COLORS
 	public String[] getUserColors() {
 		return USER_COLORS;
 	}
@@ -47,8 +69,8 @@ public class MusicApp {
 		return this.currentTrack;
 	}
 	// Method to create a new track
-	public void createTrack(int trackID, int nTimeBlocks, List<Object[]> keys) {
-		currentTrack = new Track(trackID, nTimeBlocks, keys);
+	public void createTrack(int trackID) {
+		currentTrack = new Track(trackID);
 	}
 	
 	// Method to translate from node key to string node fx: -40 --> C#4_major
@@ -87,13 +109,8 @@ public class MusicApp {
 		Thread t = new Thread(client);
 		t.start();
 		
-		int nTimeBlocks = 0;
-		List<Object[]> keys = null;
-		
 		try {
 			t.join();
-			nTimeBlocks = client.initializeTrackFromServer();
-			keys = client.getTrackKeys();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -101,10 +118,7 @@ public class MusicApp {
 		if(client.getClientReady()) {
 			getUsersFromServer();
 			
-			/// TESTING INSERT KEY
-			client.sendKeyToServer(11, trackID, 0, 12);
-			
-			createTrack(trackID, nTimeBlocks, keys);
+			createTrack(trackID);
 			currentUser = new User(userID);
 			currentUser = trackUsers.get(0);
 			this.trackID = trackID;
@@ -125,7 +139,8 @@ public class MusicApp {
 				}
 				
 			}
-			//System.out.println(keys.size());
+			
+			return keys;
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -169,11 +184,22 @@ public class MusicApp {
 		//getKeysFromServer();
 		
 		creatorsView.updateView();
+		sortUsers();
 		// views....
 	}
 
 	public ArrayList<User> getTrackUsers() {
 		return this.trackUsers;
+	}
+
+	public int getSortedUserIdFromID(int id) {
+		for(User u : sortedUsers) {
+			if(u.getUserNumberId() == id) {
+				return sortedUsers.indexOf(u);
+			}
+			
+		}
+		return -1;
 	}
 	
 }
