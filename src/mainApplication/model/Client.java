@@ -66,7 +66,8 @@ public class Client implements Runnable {
 	
 	}
 	
-	public void sendToServer(int keyID, int playingType, int blockID, int userID) {
+	// Method to insert key in track
+	public void sendKeyToServer(int keyID, int playingType, int blockID, int userID) {
 		try {
 			trackRoom_space.put(keyID,playingType,blockID,userID);
 		} catch (InterruptedException e) {
@@ -75,10 +76,28 @@ public class Client implements Runnable {
 		
 	}
 	
+	// Method to retrieve keys from track
 	public List<Object[]> getTrackKeys() throws InterruptedException {
 		List<Object[]> keys = trackRoom_space.queryAll(new FormalField(Integer.class), new FormalField(Integer.class), new FormalField(Integer.class), new FormalField(Integer.class));
 		
 		return keys;
+	}
+	
+	// Method to set default info in track
+	public Integer initializeTrackFromServer() {
+		try {
+			Object[] numberOfTimeBlocks = trackRoom_space.queryp(new ActualField("nTimeBlocks"), new FormalField(Integer.class));
+			
+			if(numberOfTimeBlocks == null) {
+				trackRoom_space.put("nTimeBlocks", 10);
+				return 10;
+			}
+		
+			return (Integer) numberOfTimeBlocks[1];
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return 1;
 	}
 	
 	public ArrayList<String> getTrackUsers() throws InterruptedException {

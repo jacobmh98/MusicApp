@@ -149,7 +149,7 @@ public class MainController implements Initializable {
 	
 	// Method that runs when refresh is clicked
 	public void onActionRefresh() {
-		MusicApp.getInstance().updateViews();
+		//MusicApp.getInstance().updateViews();
 	}
 	
 	// Method that runs when play button is clicked

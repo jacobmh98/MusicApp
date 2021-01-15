@@ -1,34 +1,45 @@
 package mainApplication;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import javafx.event.EventHandler;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class Track {
 	private HBox paneTrack;
 	private ArrayList<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
-	private MusicApp musicApp = MusicApp.getInstance();
 	private int timeBlockCount = 0;
 	private ArrayList<User> trackUsers = new ArrayList<User>();
 	private int trackID;
+	private int nTimeBlocks;
+	private List<Object[]> keys;
 	
-	public Track(int trackID) {
+	public Track(int trackID, int nTimeBlocks, List<Object[]> keys) {
 		this.trackID = trackID;
+		this.nTimeBlocks = nTimeBlocks;
+		this.keys = keys;
 	}
 	
 	// Method to intialize the empty track with a pane
 	public void initializeTrack(HBox paneTrack) {
 		this.paneTrack = paneTrack;
 		
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < nTimeBlocks; i++) {
 			addTimeBlock();
 		}
+		
+		if(keys != null) {
+			System.out.println(keys);
+			for(int i = 0; i < keys.size(); i++) {
+				//timeBlocks.get(0).addSoundBlock(0, "F", 11);
+				System.out.println("KeyID: " + keys.get(i)[0]);
+			}
+		}
+
+		
+		
 	}
 	
 	// Getter method for Track ID

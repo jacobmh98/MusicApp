@@ -10,7 +10,6 @@ public class MusicApp {
 	private static String[] USER_COLORS = {"#34a8eb", "#eb5934", "#3be835", "#fcfc03", "#c603fc"};
 	private static MusicApp instance;
 	private static AudioPlayer audioPlayer;
-	private ArrayList<Track> allTracks = new ArrayList<Track>();
 	private ArrayList<User> trackUsers = new ArrayList<User>();
 	
 	// Instances of different classes
@@ -19,6 +18,7 @@ public class MusicApp {
 	private CreatorsView creatorsView;
 	
 	private Client client;
+	private int trackID;
 	
 	private MusicApp() {
 		audioPlayer= new AudioPlayer();
@@ -47,9 +47,8 @@ public class MusicApp {
 		return this.currentTrack;
 	}
 	// Method to create a new track
-	public void enterTrack(int trackID) {
-		currentTrack = new Track(trackID);
-		allTracks.add(currentTrack);
+	public void createTrack(int trackID, int nTimeBlocks, List<Object[]> keys) {
+		currentTrack = new Track(trackID, nTimeBlocks, keys);
 	}
 	
 	// Method to translate from node key to string node fx: -40 --> C#4_major
@@ -88,8 +87,13 @@ public class MusicApp {
 		Thread t = new Thread(client);
 		t.start();
 		
+		int nTimeBlocks = 0;
+		List<Object[]> keys = null;
+		
 		try {
 			t.join();
+			nTimeBlocks = client.initializeTrackFromServer();
+			keys = client.getTrackKeys();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -97,33 +101,39 @@ public class MusicApp {
 		if(client.getClientReady()) {
 			getUsersFromServer();
 			
+			/// TESTING INSERT KEY
+			client.sendKeyToServer(11, trackID, 0, 12);
+			
+			createTrack(trackID, nTimeBlocks, keys);
 			currentUser = new User(userID);
-			enterTrack(trackID);
-			
 			currentUser = trackUsers.get(0);
-			
+			this.trackID = trackID;
 			currentTrack.addUserToTrack(currentUser);
-			
 			creatorsView = new CreatorsView();
 		}
 	}
 	
 	// Method to retrieve track data from the server
-	public void getKeysFromServer() {
-		client.sendToServer(1, -1, 0, 300);
+	public List<Object[]> getKeysFromServer() {
 		try {
 			List<Object[]> keys = client.getTrackKeys();
 			
-			if(keys==null) {
+			System.out.println("Keys in track: " + keys.size());
+			if(keys!=null) {
+				for(Object[] key : keys) {
+					System.out.println(key[0]+", "+key[1]+", "+key[2]+", "+key[3]);
+				}
 				
 			}
 			//System.out.println(keys.size());
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
+		return null;
 	}
 	
-	// Method to retrieve data from the server
+	// Method to retrieve users from the server
 	public void getUsersFromServer() {
 		try {
 			ArrayList<String> userIDs = client.getTrackUsers();
@@ -148,11 +158,18 @@ public class MusicApp {
 		}
 	}
 	
+	// Method to retrieve track from the server
+	public Integer initializeTrackFromServer() {
+		return client.initializeTrackFromServer();
+	}
+	
 	public void updateViews() {
 		getUsersFromServer();
-		getKeysFromServer();
+		//getTrackFromServer();
+		//getKeysFromServer();
 		
 		creatorsView.updateView();
+		// views....
 	}
 
 	public ArrayList<User> getTrackUsers() {
