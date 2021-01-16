@@ -131,21 +131,43 @@ public class Client implements Runnable {
 		
 		
 	}
-	
-	public void getFromServer() {
+
+	// Get Update Lock
+	public boolean containsUpdateLock(int userID, boolean searchOrRemove) {
 		try {
-			
-			Object[] update;
-			update = trackRoom_space.query(new ActualField("update view"));
-			System.out.println(update[0]);
-			
-			
-			
+			boolean contains = false;
+			if(searchOrRemove) {
+				Object[] updateLock = trackRoom_space.queryp(new ActualField("update"), new ActualField(userID));
+				if(updateLock != null) {
+					contains = true;
+				}
+			} else {
+				while(true) {
+					Object[] updateLock = trackRoom_space.getp(new ActualField("update"), new ActualField(userID));
+					if(updateLock == null) {
+						break;
+					} else {
+						contains = true;
+					}
+				}
+			}
+			return contains;
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		return false;
+	}
+	
+	public void setUpdateLock(int userID) {
+		try {
+			Object[] updateLock = trackRoom_space.queryp(new ActualField("update"), new ActualField(userID));
+			if(updateLock == null) {
+				trackRoom_space.put("update", userID);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

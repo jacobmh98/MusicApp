@@ -1,20 +1,14 @@
 package mainApplication.controller;
 
-import java.io.IOException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import org.jspace.RemoteSpace;
-import org.jspace.Space;
 
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -26,11 +20,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Text;
 import mainApplication.CreatorsView;
 import mainApplication.MusicApp;
 import mainApplication.Track;
 import mainApplication.Track.TimeBlock;
-import mainApplication.User;
 
 public class MainController implements Initializable {
 	private MusicApp musicApp = MusicApp.getInstance();
@@ -79,7 +73,7 @@ public class MainController implements Initializable {
 	private VBox vBoxInsert;
 	
 	@FXML
-	private Label lblErrorMsg;
+	private Text lblErrorMsg;
 	
 	@FXML
 	private VBox vboxCreatorsView;
@@ -153,6 +147,8 @@ public class MainController implements Initializable {
 	
 	// Method that runs when refresh is clicked
 	public void onActionRefresh() {
+		lblErrorMsg.setText("");
+		MusicApp.getInstance().removeUpdateLock(MusicApp.getInstance().getCurrentUser().getUserNumberId());
 		MusicApp.getInstance().updateViews();
 	}
 	
@@ -168,9 +164,13 @@ public class MainController implements Initializable {
 		} else {
 			lblErrorMsg.setText("");
 			//System.out.println("blockID:" + blockID + "     playingType:" + playingType + "      pressedKey:" + pressedKey + "     pressedKeyID" + pressedKeyID);
-			musicApp.getClient().sendKeyToServer(pressedKeyID, playingType,blockID,MusicApp.getInstance().getCurrentUser().getUserNumberId());
-			musicApp.getKeysFromServer();
-			musicApp.updateViews();
+			boolean contains = musicApp.sendKeyToServer(pressedKeyID, playingType,blockID,MusicApp.getInstance().getCurrentUser().getUserNumberId());
+			if(contains) {
+				lblErrorMsg.setText("The track contains work you don't currently have. Please refresh before inserting sound.");
+			} else {
+				//musicApp.getKeysFromServer();
+				musicApp.updateViews();
+			}
 			
 		}
 		

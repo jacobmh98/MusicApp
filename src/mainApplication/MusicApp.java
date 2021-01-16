@@ -108,7 +108,7 @@ public class MusicApp {
 		client = new Client(userID,trackID);
 		Thread t = new Thread(client);
 		t.start();
-		
+
 		try {
 			t.join();
 		} catch (InterruptedException e) {
@@ -124,6 +124,12 @@ public class MusicApp {
 			this.trackID = trackID;
 			currentTrack.addUserToTrack(currentUser);
 			creatorsView = new CreatorsView();
+			
+			for(User u : trackUsers) {
+				if(u.getUserNumberId() != currentUser.getUserNumberId()) {
+					client.setUpdateLock(u.getUserNumberId());
+				}
+			}
 		}
 	}
 	
@@ -180,8 +186,6 @@ public class MusicApp {
 	
 	public void updateViews() {
 		getUsersFromServer();
-		//getTrackFromServer();
-		//getKeysFromServer();
 		
 		creatorsView.updateView();
 		sortUsers();
@@ -201,6 +205,27 @@ public class MusicApp {
 			
 		}
 		return -1;
+	}
+	
+	public boolean sendKeyToServer(int pressedKeyID, int playingType, int blockID, int userID) {
+		if(!client.containsUpdateLock(userID, true)) {
+			this.client.sendKeyToServer(pressedKeyID, playingType,blockID,userID);
+			
+			for(User u : trackUsers) {
+				if(u.getUserNumberId() != currentUser.getUserNumberId()) {
+					client.setUpdateLock(u.getUserNumberId());
+				}
+			}
+			return false;
+		} else {
+			System.out.println("contains work that you don't have");
+			return true;
+		}
+			
+	}
+	
+	public void removeUpdateLock(int userID) {
+		this.client.containsUpdateLock(userID, false);
 	}
 
 	public void deleteKeyFromServer(int keyID, int playingType, int blockID, int userID) {

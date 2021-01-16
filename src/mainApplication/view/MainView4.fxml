@@ -70,11 +70,7 @@
                </VBox.margin>
             </ChoiceBox>
             <Button mnemonicParsing="false" onAction="#btnInsertSound" text="Insert Sound" />
-            <Label fx:id="lblErrorMsg">
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </Label>
+            <Text fx:id="lblErrorMsg" strokeType="OUTSIDE" strokeWidth="0.0" />
          </children>
       </VBox>
       <Button layoutX="113.0" layoutY="397.0" mnemonicParsing="false" onAction="#btnInsertColumn" text="Insert Column" />
