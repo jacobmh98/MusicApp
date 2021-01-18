@@ -33,7 +33,10 @@ public class Client implements Runnable {
 		// Connect to the remote login
 		System.out.println("Connecting to login space " + uri + "...");
 		RemoteSpace login = new RemoteSpace(uri);
-
+		Object[] lock = login.get(new ActualField("lock"));
+		System.out.println((String) lock[0]);
+		
+		
 		// Read user name from the console		
 		System.out.println("Current userID: " + userID);
 
@@ -53,6 +56,7 @@ public class Client implements Runnable {
 		
 		System.out.println("Start playing...");
 		clientReady = true;
+		login.put("lock");
 	} catch (UnknownHostException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -69,7 +73,9 @@ public class Client implements Runnable {
 	// Method to insert key in track
 	public void sendKeyToServer(int keyID, int playingType, int blockID, int userID) {
 		try {
+			trackRoom_space.get(new ActualField("lock"));
 			trackRoom_space.put(keyID,playingType,blockID,userID);
+			trackRoom_space.put("lock");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -78,17 +84,22 @@ public class Client implements Runnable {
 	
 	// Method to retrieve keys from track
 	public List<Object[]> getTrackKeys() throws InterruptedException {
+		trackRoom_space.get(new ActualField("lock"));
 		List<Object[]> keys = trackRoom_space.queryAll(new FormalField(Integer.class), new FormalField(Integer.class), new FormalField(Integer.class), new FormalField(Integer.class));
-		
+		trackRoom_space.put("lock");
 		return keys;
 	}
 	
 	// Method to delete particular key from track
 	public boolean deleteKeyFromServer(int keyID, int playingType, int blockID, int userID) {
+		
 		Object[] key;
 		try {
+			trackRoom_space.get(new ActualField("lock"));
 			key = trackRoom_space.getp(new ActualField(keyID), new ActualField(playingType), new ActualField(blockID), new ActualField(userID));
+			trackRoom_space.put("lock");
 			return key != null;
+			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -98,10 +109,13 @@ public class Client implements Runnable {
 	// Method to set default info in track
 	public Integer initializeTrackFromServer() {
 		try {
+			trackRoom_space.get(new ActualField("lock"));
 			Object[] numberOfTimeBlocks = trackRoom_space.queryp(new ActualField("nTimeBlocks"), new FormalField(Integer.class));
-			
+			trackRoom_space.put("lock");
 			if(numberOfTimeBlocks == null) {
+				trackRoom_space.get(new ActualField("lock"));
 				trackRoom_space.put("nTimeBlocks", 10);
+				trackRoom_space.put("lock");
 				return 10;
 			}
 		
@@ -113,6 +127,7 @@ public class Client implements Runnable {
 	}
 	
 	public ArrayList<String> getTrackUsers() throws InterruptedException {
+		trackRoom_space.get(new ActualField("lock"));
 		Object[] testUser = trackRoom_space.queryp(new ActualField("userID"), new FormalField(String.class));
 		
 		if(testUser != null) {
@@ -124,9 +139,10 @@ public class Client implements Runnable {
 				System.out.println(u[1]);
 				userIDs.add((String) u[1]);
 			}
+			trackRoom_space.put("lock");
 			return userIDs;
 		}
-		
+		trackRoom_space.put("lock");
 		return new ArrayList<String>();
 		
 		
@@ -135,6 +151,7 @@ public class Client implements Runnable {
 	// Get Update Lock
 	public boolean containsUpdateLock(int userID, boolean searchOrRemove) {
 		try {
+			trackRoom_space.get(new ActualField("lock"));
 			boolean contains = false;
 			if(searchOrRemove) {
 				Object[] updateLock = trackRoom_space.queryp(new ActualField("update"), new ActualField(userID));
@@ -151,21 +168,29 @@ public class Client implements Runnable {
 					}
 				}
 			}
+			trackRoom_space.put("lock");
 			return contains;
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+		try {
+			trackRoom_space.put("lock");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 	
 	// Set update lock
 	public void setUpdateLock(int userID) {
 		try {
+			trackRoom_space.get(new ActualField("lock"));
 			Object[] updateLock = trackRoom_space.queryp(new ActualField("update"), new ActualField(userID));
 			if(updateLock == null) {
 				trackRoom_space.put("update", userID);
 			}
+			trackRoom_space.put("lock");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

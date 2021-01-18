@@ -23,6 +23,9 @@ public class Server {
 			//"Lobby" is our login
 			Space login = new SequentialSpace();
 			Space tracks = new PileSpace();
+			login.put("lock");
+			tracks.put("lock");
+			
 
 			// Add the space to the repository
 			repository.add("login",login);
@@ -93,6 +96,12 @@ class roomHandler implements Runnable {
 		
 		// Create a local space for the chatroom
 		track = new PileSpace();
+		try {
+			track.put("lock");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		// Add the space to the repository
 		repository.add(this.spaceID, track);
@@ -103,15 +112,14 @@ class roomHandler implements Runnable {
 	public void run() {
 		try {
 			Object[] users = track.query(new ActualField("userID"), new FormalField(String.class));
-			
 			// Keep reading chat messages and printing them 
 			while (true) {
-				
 				/*Object[] message = track.get(new FormalField(Integer.class), new FormalField(Integer.class), new FormalField(Integer.class),new FormalField(Integer.class) );
 				System.out.println("Key " + message[0] + " | PlayingType " + message[1] + " | BlockID " + message[2] + " | UserID " + message[3] );
 				track.put("update view");*/
 				
 			}
+			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
