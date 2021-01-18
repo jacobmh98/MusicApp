@@ -159,6 +159,7 @@ public class Client implements Runnable {
 		return false;
 	}
 	
+	// Set update lock
 	public void setUpdateLock(int userID) {
 		try {
 			Object[] updateLock = trackRoom_space.queryp(new ActualField("update"), new ActualField(userID));

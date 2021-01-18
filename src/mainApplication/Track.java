@@ -99,7 +99,7 @@ public class Track {
 		return leftOverTimeBlocks;
 	}
 	
-	// new class Timeblock
+	// new class TimeBlock
 	public class TimeBlock {
 		private VBox timeBlock;
 		private int blockID;
@@ -140,9 +140,6 @@ public class Track {
 			
 			System.out.println(s.getKeyID()+", "+s.getPlayingType()+", "+s.getBlockID()+", "+s.getUserID());
 			MusicApp.getInstance().deleteKeyFromServer(keyID,playingType,blockID,userID);
-			// new Act
-//			this.soundBlocks.remove(s);
-//			this.timeBlock.getChildren().remove(s);
 		}
 		
 		// Getter methods for fields

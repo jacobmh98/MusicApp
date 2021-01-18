@@ -1,8 +1,10 @@
 package mainApplication;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import mainApplication.model.Client;
 
@@ -130,6 +132,7 @@ public class MusicApp {
 					client.setUpdateLock(u.getUserNumberId());
 				}
 			}
+			
 		}
 	}
 	
@@ -190,7 +193,6 @@ public class MusicApp {
 		creatorsView.updateView();
 		sortUsers();
 		currentTrack.initializeTrack();
-		// views....
 	}
 
 	public ArrayList<User> getTrackUsers() {
@@ -221,7 +223,6 @@ public class MusicApp {
 			System.out.println("contains work that you don't have");
 			return true;
 		}
-			
 	}
 	
 	public void removeUpdateLock(int userID) {
@@ -229,7 +230,18 @@ public class MusicApp {
 	}
 
 	public void deleteKeyFromServer(int keyID, int playingType, int blockID, int userID) {
-		client.deleteKeyFromServer(keyID, playingType, blockID, currentUser.getUserNumberId());
+		if(!client.containsUpdateLock(userID, true)) {
+			client.deleteKeyFromServer(keyID, playingType, blockID, currentUser.getUserNumberId());
+			updateViews();
+			
+			for(User u : trackUsers) {
+				if(u.getUserNumberId() != currentUser.getUserNumberId()) {
+					client.setUpdateLock(u.getUserNumberId());
+				}
+			}
+		} else {
+			System.out.println("contains work that you don't have");
+		}
 	}
 	
 }

@@ -3,6 +3,10 @@ package mainApplication.controller;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -85,9 +89,7 @@ public class MainController implements Initializable {
 		
 		
 		track.initializeTrack();
-		
-		
-		
+				
 		int whiteCount = 0;
 		int blackCount = 1;
 		
@@ -132,6 +134,10 @@ public class MainController implements Initializable {
 		creatorsView.setView(vboxCreatorsView);
 
 		MusicApp.getInstance().updateViews();
+	}
+	
+	public Text getLblErrorMsg() {
+		return lblErrorMsg;
 	}
 	
 	// Method that runs when Insert Column is clicked
