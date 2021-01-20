@@ -53,7 +53,7 @@ public class SoundBlock extends StackPane {
 
 					} else {
 						System.out.println("left");
-						MusicApp.getAudioPlayer().playKey(keyID, playingType);
+						MusicApp.getAudioPlayer().playKey(Math.abs(keyID), playingType);
 					}
 				}
 			});

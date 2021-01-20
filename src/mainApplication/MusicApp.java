@@ -116,9 +116,6 @@ public class MusicApp {
 		Thread t = new Thread(client);
 		t.start();
 		
-
-	
-		
 		try {
 			t.join();
 		} catch (InterruptedException e) {
@@ -250,6 +247,10 @@ public class MusicApp {
 		} else {
 			System.out.println("contains work that you don't have");
 		}
+	}
+	
+	public void insertNewTimeBlock() {
+		client.insertNewTimeBlock();
 	}
 	
 }

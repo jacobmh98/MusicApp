@@ -193,4 +193,16 @@ public class Client implements Runnable {
 		}
 	}
 	
+	// Insert New Time Block
+	public void insertNewTimeBlock() {
+		try {
+			Object[] numberOfTimeBlocks = trackRoom_space.getp(new ActualField("nTimeBlocks"), new FormalField(Integer.class));
+			if(numberOfTimeBlocks != null) {
+				trackRoom_space.put("nTimeBlocks", ((int) numberOfTimeBlocks[1])+1);
+			}
+		} catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

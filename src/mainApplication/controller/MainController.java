@@ -156,6 +156,7 @@ public class MainController implements Initializable {
 	public void btnInsertColumn() {
 		track.addTimeBlock();
 		updatePositionChoice();
+		musicApp.insertNewTimeBlock();
 	}
 	
 	public void btnDeleteColumn() {
@@ -182,9 +183,7 @@ public class MainController implements Initializable {
 				//musicApp.getKeysFromServer();
 				musicApp.updateViews();
 			}
-			
 		}
-		
 	}
 	
 	
