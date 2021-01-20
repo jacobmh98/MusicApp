@@ -249,8 +249,36 @@ public class MusicApp {
 		}
 	}
 	
-	public void insertNewTimeBlock() {
-		client.insertNewTimeBlock();
+	public boolean insertNewTimeBlock() {
+		if(!client.containsUpdateLock(currentUser.getUserNumberId(), true)) {
+			client.insertNewTimeBlock();
+			
+			for(User u : trackUsers) {
+				if(u.getUserNumberId() != currentUser.getUserNumberId()) {
+					client.setUpdateLock(u.getUserNumberId());
+				}
+			}
+			return false;
+		} else {
+			System.out.println("contains work that you don't have");
+			return true;
+		}
+	}
+
+	public boolean deleteTimeBlock() {
+		if(!client.containsUpdateLock(currentUser.getUserNumberId(), true)) {
+			client.deleteSoundBlock(currentUser.getUserNumberId());
+			
+			for(User u : trackUsers) {
+				if(u.getUserNumberId() != currentUser.getUserNumberId()) {
+					client.setUpdateLock(u.getUserNumberId());
+				}
+			}
+			return false;
+		} else {
+			System.out.println("contains work that you don't have");
+			return true;
+		}
 	}
 	
 }

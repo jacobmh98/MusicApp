@@ -204,5 +204,35 @@ public class Client implements Runnable {
 			e.printStackTrace();
 		}
 	}
+
+	public void deleteSoundBlock(int userID) {
+		try {
+			Object[] numberOfTimeBlocks = trackRoom_space.queryp(new ActualField("nTimeBlocks"), new FormalField(Integer.class));
+			if((int) numberOfTimeBlocks[1] > 1) {
+				boolean delete = true;
+				List<Object[]> keys = trackRoom_space.queryAll(new FormalField(Integer.class), new FormalField(Integer.class), new ActualField(((int) numberOfTimeBlocks[1])-1), new FormalField(Integer.class));
+				
+				for(Object[] key : keys) {
+					if(((int) key[3]) != userID) {
+						delete = false;
+						break;
+					}
+				}
+				
+				if(delete) {
+					keys = trackRoom_space.getAll(new FormalField(Integer.class), new FormalField(Integer.class), new ActualField(((int) numberOfTimeBlocks[1])-1), new FormalField(Integer.class));
+					numberOfTimeBlocks = trackRoom_space.getp(new ActualField("nTimeBlocks"), new FormalField(Integer.class));
+					if(numberOfTimeBlocks != null) {
+						trackRoom_space.put("nTimeBlocks", ((int) numberOfTimeBlocks[1])-1);
+					}
+				}
+			}
+			
+			
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 }

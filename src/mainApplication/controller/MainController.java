@@ -91,7 +91,6 @@ public class MainController implements Initializable {
 		track = MusicApp.getInstance().getCurrentTrack();
 		track.setPane(hBoxTrack);
 		
-		
 		track.initializeTrack();
 				
 		int whiteCount = 0;
@@ -124,12 +123,15 @@ public class MainController implements Initializable {
 		
 		// Initializing choiceBoxPosition
 		updatePositionChoice();
-		choiceBoxPosition.setValue("0 ms");
+//		choiceBoxPosition.setValue("0 ms");
+		
 		
 		// Listening for changes in choiceBoxPosition
 		choiceBoxPosition.getSelectionModel().selectedIndexProperty().addListener(
 			(ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
-	            blockID = (int) new_val;
+	            if((int) new_val > 0) {
+	            	blockID = (int) new_val;
+	            }
 			});
 		
 		
@@ -143,6 +145,7 @@ public class MainController implements Initializable {
 			lblErrorMsg.setText("");
 			MusicApp.getInstance().removeUpdateLock(MusicApp.getInstance().getCurrentUser().getUserNumberId());
 			MusicApp.getInstance().updateViews();
+			updatePositionChoice();
 		}));
 		timeline.setCycleCount(Animation.INDEFINITE);
 		timeline.play();
@@ -154,14 +157,24 @@ public class MainController implements Initializable {
 	
 	// Method that runs when Insert Column is clicked
 	public void btnInsertColumn() {
-		track.addTimeBlock();
-		updatePositionChoice();
-		musicApp.insertNewTimeBlock();
+		
+		boolean contains = musicApp.insertNewTimeBlock();
+		if(contains) {
+			lblErrorMsg.setText("The track contains work you don't currently have. Please refresh before inserting sound.");
+		} else {
+			musicApp.updateViews();
+			updatePositionChoice();
+		}
 	}
 	
 	public void btnDeleteColumn() {
-		track.deleteTimeBlock();
-		updatePositionChoice();
+		boolean contains = musicApp.deleteTimeBlock();
+		if(contains) {
+			lblErrorMsg.setText("The track contains work you don't currently have. Please refresh before inserting sound.");
+		} else {
+			musicApp.updateViews();
+			updatePositionChoice();
+		}
 	}
 	
 	// Method that runs when play button is clicked
@@ -180,20 +193,30 @@ public class MainController implements Initializable {
 			if(contains) {
 				lblErrorMsg.setText("The track contains work you don't currently have. Please refresh before inserting sound.");
 			} else {
-				//musicApp.getKeysFromServer();
 				musicApp.updateViews();
 			}
 		}
 	}
 	
-	
 	public void updatePositionChoice() {
-		choiceBoxPosition.getItems().clear();
-		choiceBoxPosition.setValue("0 ms");
-		blockID = 0;
-		for(TimeBlock t : track.getTimeBlocks()) {
-			choiceBoxPosition.getItems().add(t.getBlockID()*500 + " ms");
+		int choiceBoxSize = choiceBoxPosition.getItems().size();
+		int timeBlocks = track.getTimeBlocks().size();
+		if(choiceBoxSize != timeBlocks) {
+			choiceBoxPosition.getItems().clear();
+
+			for(TimeBlock t : track.getTimeBlocks()) {
+				choiceBoxPosition.getItems().add(t.getBlockID()*500 + " ms");
+			}
+			
+			if(blockID > timeBlocks) {
+				blockID = timeBlocks-1;
+			}
+			blockID = 0;
+			String value = blockID + " ms";
+			choiceBoxPosition.setValue(value);
 		}
+
+		
 	}
 	
 	public void radioBtnSelect(ActionEvent e) {
