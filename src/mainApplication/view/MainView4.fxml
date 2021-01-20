@@ -77,6 +77,5 @@
       <Button layoutX="211.0" layoutY="397.0" mnemonicParsing="false" onAction="#btnDeleteColumn" text="Delete Column" />
       <Button layoutX="35.0" layoutY="397.0" mnemonicParsing="false" onAction="#btnPlaySong" text="Play Song" />
       <VBox fx:id="vboxCreatorsView" layoutX="1100.0" layoutY="117.0" prefHeight="265.0" prefWidth="177.0" />
-      <Button layoutX="314.0" layoutY="397.0" mnemonicParsing="false" onAction="#onActionRefresh" text="Refresh" />
    </children>
 </AnchorPane>

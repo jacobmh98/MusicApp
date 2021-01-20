@@ -2,10 +2,15 @@ package mainApplication;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import com.sun.javafx.text.TextLine;
+
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import mainApplication.model.Client;
 
 public class MusicApp {
@@ -110,7 +115,10 @@ public class MusicApp {
 		client = new Client(userID,trackID);
 		Thread t = new Thread(client);
 		t.start();
+		
 
+	
+		
 		try {
 			t.join();
 		} catch (InterruptedException e) {

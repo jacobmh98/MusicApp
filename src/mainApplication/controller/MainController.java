@@ -8,6 +8,9 @@ import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,6 +28,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import mainApplication.CreatorsView;
 import mainApplication.MusicApp;
 import mainApplication.Track;
@@ -134,6 +138,14 @@ public class MainController implements Initializable {
 		creatorsView.setView(vboxCreatorsView);
 
 		MusicApp.getInstance().updateViews();
+		
+		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), ev -> {
+			lblErrorMsg.setText("");
+			MusicApp.getInstance().removeUpdateLock(MusicApp.getInstance().getCurrentUser().getUserNumberId());
+			MusicApp.getInstance().updateViews();
+		}));
+		timeline.setCycleCount(Animation.INDEFINITE);
+		timeline.play();
 	}
 	
 	public Text getLblErrorMsg() {
@@ -149,13 +161,6 @@ public class MainController implements Initializable {
 	public void btnDeleteColumn() {
 		track.deleteTimeBlock();
 		updatePositionChoice();
-	}
-	
-	// Method that runs when refresh is clicked
-	public void onActionRefresh() {
-		lblErrorMsg.setText("");
-		MusicApp.getInstance().removeUpdateLock(MusicApp.getInstance().getCurrentUser().getUserNumberId());
-		MusicApp.getInstance().updateViews();
 	}
 	
 	// Method that runs when play button is clicked
