@@ -42,7 +42,7 @@ public class SoundBlock extends StackPane {
 				@Override
 				public void handle(MouseEvent arg0) {
 					if(arg0.getButton() == MouseButton.SECONDARY) {
-						//MusicApp.getInstance().getCurrentTrack().getTimeBlock(SoundBlock.this.blockID).deleteSoundBlock(SoundBlock.this);
+						
 						int keyID = SoundBlock.this.keyID;
 						int playingType = SoundBlock.this.playingType;
 						int blockID = SoundBlock.this.blockID;
@@ -50,15 +50,7 @@ public class SoundBlock extends StackPane {
 						
 						MusicApp.getInstance().deleteKeyFromServer(keyID, playingType, blockID, userID);
 						
-//						lblErrorMsg.setText("");
-//						//System.out.println("blockID:" + blockID + "     playingType:" + playingType + "      pressedKey:" + pressedKey + "     pressedKeyID" + pressedKeyID);
-//						boolean contains = musicApp.sendKeyToServer(pressedKeyID, playingType,blockID,MusicApp.getInstance().getCurrentUser().getUserNumberId());
-//						if(contains) {
-//							lblErrorMsg.setText("The track contains work you don't currently have. Please refresh before inserting sound.");
-//						} else {
-//							//musicApp.getKeysFromServer();
-//							musicApp.updateViews();
-//						}
+
 					} else {
 						System.out.println("left");
 						MusicApp.getAudioPlayer().playKey(keyID, playingType);

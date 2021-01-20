@@ -114,9 +114,6 @@ class roomHandler implements Runnable {
 			Object[] users = track.query(new ActualField("userID"), new FormalField(String.class));
 			// Keep reading chat messages and printing them 
 			while (true) {
-				/*Object[] message = track.get(new FormalField(Integer.class), new FormalField(Integer.class), new FormalField(Integer.class),new FormalField(Integer.class) );
-				System.out.println("Key " + message[0] + " | PlayingType " + message[1] + " | BlockID " + message[2] + " | UserID " + message[3] );
-				track.put("update view");*/
 				
 			}
 			

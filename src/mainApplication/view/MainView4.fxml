@@ -40,7 +40,7 @@
             <Font name="Calibri" size="24.0" />
          </font>
       </Label>
-      <Text layoutX="31.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Music Creator. To use this app select if you wan’t to play an individual key or chord, select a time position and press Insert Sound to insert the chosen key/chord. Use the control buttons below the track, to listen to your song or extend or short the duration. Use the mouse to listen to individual sounds blocks by left clicking on the inserted sound in the track. To delete a specific delete right click on it and it will be removed from the track." wrappingWidth="764.13671875">
+      <Text layoutX="31.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Music Creator. To use this app select if you want to play an individual key or chord, select a time position and press Insert Sound to insert the chosen key/chord. Use the control buttons below the track to listen to your song or choose when to play the chosen key. Use the mouse to listen to individual sounds blocks by left clicking on the inserted sound in the track. To delete a specific key, right click on it and it will be removed from the track." wrappingWidth="764.13671875">
          <font>
             <Font name="Calibri" size="13.0" />
          </font>

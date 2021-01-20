@@ -28,7 +28,7 @@ public class AudioPlayer {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResource("./resources/" + location + "/"+ audioID + ".wav"));
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
-			clip.start(); //This plays the audio} catch(Exception e) {}
+			clip.start(); //This plays the audio
 		
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();

@@ -182,17 +182,6 @@ public class MainController implements Initializable {
 		
 	}
 	
-//	public void updateSounds(int pressedKeyID,int playingType, int blockID) {
-//		String key = musicApp.translateIdToKey(Math.abs(pressedKeyID), playingType);
-//		if(key == null) {
-//			lblErrorMsg.setText("Please enter key on the piano");
-//		} else {
-//			lblErrorMsg.setText("");
-//			track.getTimeBlock(blockID).addSoundBlock(playingType, key ,Math.abs(pressedKeyID));
-//			//System.out.println("blockID:" + blockID + "     playingType:" + playingType + "      pressedKey:" + pressedKey + "     pressedKeyID" + pressedKeyID);
-//		}
-//		
-//	}
 	
 	public void updatePositionChoice() {
 		choiceBoxPosition.getItems().clear();
