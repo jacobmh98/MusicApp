@@ -129,7 +129,7 @@ public class MainController implements Initializable {
 		// Listening for changes in choiceBoxPosition
 		choiceBoxPosition.getSelectionModel().selectedIndexProperty().addListener(
 			(ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
-	            if((int) new_val > 0) {
+	            if((int) new_val >= 0) {
 	            	blockID = (int) new_val;
 	            }
 			});

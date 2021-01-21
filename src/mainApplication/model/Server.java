@@ -1,6 +1,7 @@
 package mainApplication.model;
 
-import java.util.List;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import org.jspace.ActualField;
 import org.jspace.FormalField;
@@ -12,7 +13,7 @@ import org.jspace.SpaceRepository;
 public class Server {
 
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UnknownHostException {
 
 		try {
 			
@@ -32,7 +33,9 @@ public class Server {
 			repository.add("tracks",tracks);
 					
 			// Set the URI of the chat space
-			String uri = "tcp://127.0.0.1:9001/login?keep";
+			String ip = InetAddress.getLocalHost().getHostAddress();
+			System.out.println(ip);
+			String uri = "tcp://"+ip+":9001/login?keep";
 			
 			repository.addGate(uri);
 			System.out.println("Opening repository gate at " + uri + "...");
@@ -54,11 +57,11 @@ public class Server {
 					//If track exists, join it
 					if(the_track != null) {
 						System.out.println(the_track[0] + "  " + the_track[1]);
-						trackURI = "tcp://127.0.0.1:9001/track" + the_track[1] + "?keep";
+						trackURI = "tcp://"+ip+":9001/track" + the_track[1] + "?keep";
 					//If track doesn't exist, create one
 					} else {
 						System.out.println("Creating room " + trackID + " for " + userID + " ...");	
-						trackURI = "tcp://127.0.0.1:9001/track" + trackC + "?keep";
+						trackURI = "tcp://"+ip+":9001/track" + trackC + "?keep";
 						System.out.println("Setting up chat space " + trackURI + "...");
 						new Thread(new roomHandler(trackID,"track"+trackC,trackURI,repository)).start();
 						tracks.put(trackID,trackC);
