@@ -33,7 +33,9 @@ public class Server {
 			repository.add("tracks",tracks);
 					
 			// Set the URI of the chat space
-			String ip = InetAddress.getLocalHost().getHostAddress();
+			// CHANGE IP TO COMPUTER IP WHO IS HOSTING SERVER
+			String ip = "127.0.0.1";
+			// String ip = InetAddress.getLocalHost().getHostAddress();
 			System.out.println(ip);
 			String uri = "tcp://"+ip+":9001/login?keep";
 			

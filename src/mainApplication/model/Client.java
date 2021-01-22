@@ -28,7 +28,9 @@ public class Client implements Runnable {
 		try { 
 		// Set the URI of the chat space
 		// Default value
-		String uri = "tcp://10.19.130.27:9001/login?keep";
+			
+		// CHANGE IP ADDRESS TO HOSTING COMPUTER
+		String uri = "tcp://127.0.0.1:9001/login?keep";
 		
 		// Connect to the remote login
 		System.out.println("Connecting to login space " + uri + "...");
