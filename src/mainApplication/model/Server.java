@@ -23,7 +23,7 @@ public class Server {
 			//SequentialSpace chords = new SequentialSpace();
 			//"Lobby" is our login
 			Space login = new SequentialSpace();
-			Space tracks = new PileSpace();
+			Space tracks = new SequentialSpace();
 			login.put("lock");
 			tracks.put("lock");
 			
